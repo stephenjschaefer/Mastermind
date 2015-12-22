@@ -1,3 +1,7 @@
+#IDEA Directory
+.idea/
+
+#Class Files
 *.class
 
 # Mobile Tools for Java (J2ME)
