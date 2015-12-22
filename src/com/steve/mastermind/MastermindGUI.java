@@ -1,4 +1,5 @@
 /**
+ * Project: Mastermind
  * Created by Steve Schaefer on 12/22/2015.
  */
 package com.steve.mastermind;
@@ -12,41 +13,28 @@ package com.steve.mastermind;
     import java.awt.geom.Line2D;
     import java.util.Random;
 
-public class MastermindGUI extends JPanel {
+class MastermindGUI extends JPanel {
 
     // Declarations
-    private JButton blue = new JButton("Blue");
-    private JButton red = new JButton("Red");
-    private JButton orange = new JButton("Orange");
-    private JButton green = new JButton("Green");
-    private JButton yellow = new JButton("Yellow");
-    private JButton white = new JButton("White");
-    private JButton guess = new JButton("Make Guess");
-    private JButton newGame = new JButton("New Game");
-    private JLabel currentGuess = new JLabel("Current Guess:");
+    private final JButton blue = new JButton("Blue");
+    private final JButton red = new JButton("Red");
+    private final JButton orange = new JButton("Orange");
+    private final JButton green = new JButton("Green");
+    private final JButton yellow = new JButton("Yellow");
+    private final JButton white = new JButton("White");
+    private final JButton guess = new JButton("Make Guess");
+    private final JButton newGame = new JButton("New Game");
     private int guessRow = 1;
-    private JLabel guessNum = new JLabel("0");
-    private JLabel currentColor = new JLabel("Current Color:");
-    private JLabel selectedColor = new JLabel("----------");
-    private int[] guessX = {20,60,100,140};
-    private int[] guessY = {390,350,310,270,230,190,150,110,70,30};
-    private int[] evalX = {230,270,310,350};
-    private int[] evalY = {390,350,310,270,230,190,150,110,70,30};
+    private final JLabel currentGuess = new JLabel("Current Guess:");
+    private final JLabel guessNum = new JLabel("0");
+    JLabel currentColor = new JLabel("Current Color:");
+    private final JLabel selectedColor = new JLabel("----------");
     private int color = 6;
-    private Peg[] guessPeg = new Peg[40];
-    private Peg[] evalPeg = new Peg[40];
-    private Peg[] answerPeg = new Peg[4];
-    private int pegCount = 0;
-    private Boolean validGuess = true;
-    private int redCount = 0;
-    private int whiteCount = 0;
-    private Random generator = new Random();
-    private int rnd;
+    private final Peg[] guessPeg = new Peg[40];
+    private final Peg[] evalPeg = new Peg[40];
+    private final Peg[] answerPeg = new Peg[4];
+    private final Random generator = new Random();
     private Boolean start = false;
-    private int evalCount = 0;
-    private String peg1, peg2, peg3, peg4;
-    private int diffLevel;
-    private int diffSetting;
 
     public MastermindGUI() {
         JPanel colorSelect = new JPanel();
@@ -64,7 +52,7 @@ public class MastermindGUI extends JPanel {
         newGame.addActionListener(buttonHandle);
         guess.addActionListener(buttonHandle);
 
-        //Disenable Buttons Initially
+        //Disable Buttons Initially
         blue.setEnabled(false);
         red.setEnabled(false);
         orange.setEnabled(false);
@@ -110,25 +98,29 @@ public class MastermindGUI extends JPanel {
         com.steve.mastermind.Mastermind.frame.add(sideBar, BorderLayout.EAST);
         com.steve.mastermind.Mastermind.frame.add(this, BorderLayout.CENTER);
 
-        //Initialize Guess com.steve.mastermind.Peg Array
-        pegCount = 0;
-        for (int i=0; i<guessY.length; i++) {
-            for (int j=0; j<guessX.length; j++) {
-                guessPeg[pegCount++] = new Peg(guessX[j], guessY[i], 6);
+        //Initialize Guess Peg Array
+        int pegCount = 0;
+        int[] guessY = {390, 350, 310, 270, 230, 190, 150, 110, 70, 30};
+        for (int aGuessY : guessY) {
+            int[] guessX = {20, 60, 100, 140};
+            for (int aGuessX : guessX) {
+                guessPeg[pegCount++] = new Peg(aGuessX, aGuessY, 6);
             } //End for
         } //End for
 
-        //Initialize Eval com.steve.mastermind.Peg Array
+        //Initialize Eval Peg Array
         pegCount = 0;
-        for (int i=0; i<evalY.length; i++) {
-            for (int j=0; j<evalX.length; j++) {
-                evalPeg[pegCount++] = new Peg(evalX[j], evalY[i], 6);
+        int[] evalY = {390, 350, 310, 270, 230, 190, 150, 110, 70, 30};
+        for (int anEvalY : evalY) {
+            int[] evalX = {230, 270, 310, 350};
+            for (int anEvalX : evalX) {
+                evalPeg[pegCount++] = new Peg(anEvalX, anEvalY, 6);
             } //End for
         } //End for
 
     } //End constructor
 
-    // Button handler to switch moods
+    // Button handler to switch modes
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             if(event.getSource() == blue && start) {
@@ -156,7 +148,7 @@ public class MastermindGUI extends JPanel {
                 color = 5;
             } //End if
             if(event.getSource() == newGame) {
-                if (newGame.getText() == "New Game") {
+                if (newGame.getText().equals("New Game")) {
                     for (int i=0; i<40; i++) {
                         guessPeg[i].color = 6;
                         evalPeg[i].color = 6;
@@ -168,7 +160,7 @@ public class MastermindGUI extends JPanel {
 
                     // Difficulty Setting Prompt
                     Object[] options = { "Easy", "Medium", "Hard" };
-                    diffSetting = JOptionPane.showOptionDialog(com.steve.mastermind.Mastermind.frame, "Select Your Difficulty Level", "Difficulty Setting", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    int diffSetting = JOptionPane.showOptionDialog(Mastermind.frame, "Select Your Difficulty Level", "Difficulty Setting", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 
                     //Reset Buttons
                     blue.setEnabled(true);
@@ -180,6 +172,7 @@ public class MastermindGUI extends JPanel {
                     guess.setEnabled(true);
 
                     //Adjust Based On Difficulty Setting
+                    int diffLevel;
                     switch (diffSetting) {
                         case JOptionPane.YES_OPTION:
                             diffLevel = 1;
@@ -201,68 +194,23 @@ public class MastermindGUI extends JPanel {
                             break;
                     } //End switch
 
-                    //Initialize Answer Pegs
+                    //Initialize Answer Pegs And Answer String
                     for (int i=0; i<4; i++) {
-                        answerPeg[i] = new Peg(0,0,generator.nextInt(2*diffLevel));
+                        answerPeg[i] = new Peg(0,0,generator.nextInt(2* diffLevel));
+
                     } //End for
-
-                    //Initialize Answer String
-                    switch (answerPeg[0].color) {
-                        case 0: peg1 = "Blue"; break;
-                        case 1: peg1 = "Red"; break;
-                        case 2: peg1 = "Orange"; break;
-                        case 3: peg1 = "Green"; break;
-                        case 4: peg1 = "Yellow"; break;
-                        case 5: peg1 = "White"; break;
-                    } //End switch
-
-                    switch (answerPeg[1].color) {
-                        case 0: peg2 = "Blue"; break;
-                        case 1: peg2 = "Red"; break;
-                        case 2: peg2 = "Orange"; break;
-                        case 3: peg2 = "Green"; break;
-                        case 4: peg2 = "Yellow"; break;
-                        case 5: peg2 = "White"; break;
-                    } //End switch
-
-                    switch (answerPeg[2].color) {
-                        case 0: peg3 = "Blue"; break;
-                        case 1: peg3 = "Red"; break;
-                        case 2: peg3 = "Orange"; break;
-                        case 3: peg3 = "Green"; break;
-                        case 4: peg3 = "Yellow"; break;
-                        case 5: peg3 = "White"; break;
-                    } //End switch
-
-                    switch (answerPeg[3].color) {
-                        case 0: peg4 = "Blue"; break;
-                        case 1: peg4 = "Red"; break;
-                        case 2: peg4 = "Orange"; break;
-                        case 3: peg4 = "Green"; break;
-                        case 4: peg4 = "Yellow"; break;
-                        case 5: peg4 = "White"; break;
-                    } //End switch
 
                     start = true;
                     newGame.setText("Give Up?");
                 } //End if
                 else {
-                    if (newGame.getText() == "Give Up?") {
-                        JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "<html><body><center>The Answer Was:<br>"+peg1+", "+peg2+", "+peg3+", "+peg4+"<br><br>Better Luck Next Time!</center></body></html>");
-                        start = false;
-                        blue.setEnabled(false);
-                        red.setEnabled(false);
-                        orange.setEnabled(false);
-                        green.setEnabled(false);
-                        yellow.setEnabled(false);
-                        white.setEnabled(false);
-                        guess.setEnabled(false);
-                        newGame.setText("New Game");
+                    if (newGame.getText().equals("Give Up?")) {
+                        endGame();
                     } //End if
                 } //End else
             } //End if
             if(event.getSource() == guess && start) {
-                validGuess = true;
+                Boolean validGuess = true;
                 switch (guessRow) {
                     case 1:
                         for (int i=0; i<4; i++) {
@@ -343,8 +291,8 @@ public class MastermindGUI extends JPanel {
                     for (int i=0; i<4; i++) {
                         answerPeg[i].tagged = false;
                     } //End for
-                    redCount = 0;
-                    whiteCount = 0;
+                    int redCount = 0;
+                    int whiteCount = 0;
                     switch (guessRow) {
                         case 1:
                             for (int i=0; i<4; i++) {
@@ -571,10 +519,11 @@ public class MastermindGUI extends JPanel {
                     } //End switch
 
                     //Set eval pegs based on eval
-                    evalCount = 0;
+                    int evalCount = 0;
                     switch (guessRow) {
                         case 1:
-                            for (int i=0; i<redCount; i++) {
+                            int rnd;
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4);
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -585,7 +534,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -603,7 +552,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 2:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+4;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -614,7 +563,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -632,7 +581,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 3:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+8;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -643,7 +592,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -661,7 +610,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 4:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+12;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -672,7 +621,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -690,7 +639,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 5:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+16;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -701,7 +650,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -719,7 +668,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 6:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+20;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -730,7 +679,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -748,7 +697,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 7:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+24;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -759,7 +708,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -777,7 +726,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 8:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+28;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -788,7 +737,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -806,7 +755,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 9:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+32;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -817,7 +766,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -835,7 +784,7 @@ public class MastermindGUI extends JPanel {
                             break;
 
                         case 10:
-                            for (int i=0; i<redCount; i++) {
+                            for (int i = 0; i< redCount; i++) {
                                 rnd = generator.nextInt(4)+36;
                                 if (evalPeg[rnd].color == 6) {
                                     evalPeg[rnd].color = 0;
@@ -846,7 +795,7 @@ public class MastermindGUI extends JPanel {
                                 } //End else
                             } //End for
 
-                            for (int i=0; i<whiteCount; i++) {
+                            for (int i = 0; i< whiteCount; i++) {
                                 if (evalCount == 4) {
                                     break;
                                 } //End if
@@ -884,29 +833,11 @@ public class MastermindGUI extends JPanel {
                     } //End switch
 
                     if (redCount == 4) {
-                        JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "Congratulations, You Won!");
-                        start = false;
-                        blue.setEnabled(false);
-                        red.setEnabled(false);
-                        orange.setEnabled(false);
-                        green.setEnabled(false);
-                        yellow.setEnabled(false);
-                        white.setEnabled(false);
-                        guess.setEnabled(false);
-                        newGame.setText("New Game");
+                        winGame();
                     } //End if
                     else {
                         if (guessRow == 11) {
-                            JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "<html><body><center>The Answer Was:<br>"+peg1+", "+peg2+", "+peg3+", "+peg4+"<br><br>Better Luck Next Time!</center></body></html>");
-                            start = false;
-                            blue.setEnabled(false);
-                            red.setEnabled(false);
-                            orange.setEnabled(false);
-                            green.setEnabled(false);
-                            yellow.setEnabled(false);
-                            white.setEnabled(false);
-                            guess.setEnabled(false);
-                            newGame.setText("New Game");
+                            endGame();
                         } //End if
                     } //End else
 
@@ -919,6 +850,33 @@ public class MastermindGUI extends JPanel {
             repaint();
         } //End method
     } //End class
+
+    //End Game
+    private void endGame() {
+        JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Better Luck Next Time!</center></body></html>");
+        start = false;
+        blue.setEnabled(false);
+        red.setEnabled(false);
+        orange.setEnabled(false);
+        green.setEnabled(false);
+        yellow.setEnabled(false);
+        white.setEnabled(false);
+        guess.setEnabled(false);
+        newGame.setText("New Game");
+    }
+
+    private void winGame() {
+        JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "Congratulations, You Won!");
+        start = false;
+        blue.setEnabled(false);
+        red.setEnabled(false);
+        orange.setEnabled(false);
+        green.setEnabled(false);
+        yellow.setEnabled(false);
+        white.setEnabled(false);
+        guess.setEnabled(false);
+        newGame.setText("New Game");
+    }
 
     //Mouse Handler
     private class MouseHandler implements MouseListener {
@@ -1135,27 +1093,47 @@ public class MastermindGUI extends JPanel {
         //g2d.draw(new Line2D.Double((com.steve.mastermind.Mastermind.frame.getWidth()/4)-30, 20, (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30, 420));
 
         //Draw Guess Pegs
-        for (int i=0; i<guessPeg.length; i++) {
-            switch (guessPeg[i].color) {
-                case 0: g2d.setPaint(Color.BLUE); break;
-                case 1: g2d.setPaint(Color.RED); break;
-                case 2: g2d.setPaint(Color.ORANGE); break;
-                case 3: g2d.setPaint(Color.GREEN); break;
-                case 4: g2d.setPaint(Color.YELLOW); break;
-                case 5: g2d.setPaint(Color.WHITE); break;
-                default: g2d.setPaint(Color.BLACK); break;
+        for (Peg aGuessPeg : guessPeg) {
+            switch (aGuessPeg.color) {
+                case 0:
+                    g2d.setPaint(Color.BLUE);
+                    break;
+                case 1:
+                    g2d.setPaint(Color.RED);
+                    break;
+                case 2:
+                    g2d.setPaint(Color.ORANGE);
+                    break;
+                case 3:
+                    g2d.setPaint(Color.GREEN);
+                    break;
+                case 4:
+                    g2d.setPaint(Color.YELLOW);
+                    break;
+                case 5:
+                    g2d.setPaint(Color.WHITE);
+                    break;
+                default:
+                    g2d.setPaint(Color.BLACK);
+                    break;
             } //End switch
-            g2d.fillOval(guessPeg[i].x,guessPeg[i].y,20,20);
+            g2d.fillOval(aGuessPeg.x, aGuessPeg.y, 20, 20);
         } //End for
 
         //Draw Eval Pegs
-        for (int i=0; i<evalPeg.length; i++) {
-            switch (evalPeg[i].color) {
-                case 0: g2d.setPaint(Color.RED); break;
-                case 1: g2d.setPaint(Color.WHITE); break;
-                default: g2d.setPaint(Color.BLACK); break;
+        for (Peg anEvalPeg : evalPeg) {
+            switch (anEvalPeg.color) {
+                case 0:
+                    g2d.setPaint(Color.RED);
+                    break;
+                case 1:
+                    g2d.setPaint(Color.WHITE);
+                    break;
+                default:
+                    g2d.setPaint(Color.BLACK);
+                    break;
             } //End switch
-            g2d.fillOval(evalPeg[i].x,evalPeg[i].y,20,20);
+            g2d.fillOval(anEvalPeg.x, anEvalPeg.y, 20, 20);
         } //End for
 
     } //End method
