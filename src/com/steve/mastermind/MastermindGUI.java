@@ -24,8 +24,11 @@ class MastermindGUI extends JPanel {
     private final JButton white = new JButton("White");
     private final JButton guess = new JButton("Make Guess");
     private final JButton newGame = new JButton("New Game");
+    private final JMenuItem exitItem = new JMenuItem("Exit");
     private final JMenuItem newGameItem = new JMenuItem("New Game");
     private final JMenuItem endGameItem = new JMenuItem("Give Up");
+    private final JMenuItem rulesItem = new JMenuItem("Rules");
+    private final JMenuItem aboutItem = new JMenuItem("About");
     private int guessRow = 1;
     private final JLabel currentGuess = new JLabel("Current Guess:");
     private final JLabel guessNum = new JLabel("0");
@@ -42,7 +45,7 @@ class MastermindGUI extends JPanel {
 
         //Handlers
         ButtonHandler buttonHandle = new ButtonHandler();
-        com.steve.mastermind.Mastermind.frame.addMouseListener(new MouseHandler());
+        Mastermind.frame.addMouseListener(new MouseHandler());
 
         //Add button handler
         blue.addActionListener(buttonHandle);
@@ -71,11 +74,6 @@ class MastermindGUI extends JPanel {
         JMenu gameMenu = new JMenu("Game");
         JMenu helpMenu = new JMenu("Help");
 
-        //Menu Items
-        JMenuItem exitItem = new JMenuItem("Exit");
-        JMenuItem rulesItem = new JMenuItem("Rules");
-        JMenuItem aboutItem = new JMenuItem("About");
-
         //Add Menu Items To Menus
         fileMenu.add(exitItem);
         gameMenu.add(newGameItem);
@@ -88,6 +86,20 @@ class MastermindGUI extends JPanel {
         menuBar.add(fileMenu);
         menuBar.add(gameMenu);
         menuBar.add(helpMenu);
+
+        //Set Menu Item Hotkeys
+        exitItem.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        newGameItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        endGameItem.setAccelerator(KeyStroke.getKeyStroke('G', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        rulesItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        aboutItem.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+
+        //Add Menu Item Action Listener
+        exitItem.addActionListener(buttonHandle);
+        newGameItem.addActionListener(buttonHandle);
+        endGameItem.addActionListener(buttonHandle);
+        rulesItem.addActionListener(buttonHandle);
+        aboutItem.addActionListener(buttonHandle);
 
         //Set Game Menu Item Initial State
         newGameItem.setEnabled(true);
@@ -130,10 +142,10 @@ class MastermindGUI extends JPanel {
         selectedColor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //Set Menu Bar and Add All Panels
-        com.steve.mastermind.Mastermind.frame.setJMenuBar(menuBar);
-        com.steve.mastermind.Mastermind.frame.add(colorSelect, BorderLayout.SOUTH);
-        com.steve.mastermind.Mastermind.frame.add(sideBar, BorderLayout.EAST);
-        com.steve.mastermind.Mastermind.frame.add(this, BorderLayout.CENTER);
+        Mastermind.frame.setJMenuBar(menuBar);
+        Mastermind.frame.add(colorSelect, BorderLayout.SOUTH);
+        Mastermind.frame.add(sideBar, BorderLayout.EAST);
+        Mastermind.frame.add(this, BorderLayout.CENTER);
 
         //Initialize Guess Peg Array
         int pegCount = 0;
@@ -184,9 +196,9 @@ class MastermindGUI extends JPanel {
                 selectedColor.setText("White");
                 color = 5;
             } //End if
-            if(event.getSource() == newGame) {
+            if(event.getSource() == newGame || event.getSource() == newGameItem) {
                 if (newGame.getText().equals("New Game")) {
-                    for (int i=0; i<40; i++) {
+                    for (int i = 0; i < 40; i++) {
                         guessPeg[i].color = 6;
                         evalPeg[i].color = 6;
                     } //End for
@@ -196,7 +208,7 @@ class MastermindGUI extends JPanel {
                     selectedColor.setText("----------");
 
                     // Difficulty Setting Prompt
-                    Object[] options = { "Easy", "Medium", "Hard" };
+                    Object[] options = {"Easy", "Medium", "Hard"};
                     int diffSetting = JOptionPane.showOptionDialog(Mastermind.frame, "Select Your Difficulty Level", "Difficulty Setting", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 
                     //Reset Buttons
@@ -236,8 +248,8 @@ class MastermindGUI extends JPanel {
                     } //End switch
 
                     //Initialize Answer Pegs And Answer String
-                    for (int i=0; i<4; i++) {
-                        answerPeg[i] = new Peg(0,0,generator.nextInt(2* diffLevel));
+                    for (int i = 0; i < 4; i++) {
+                        answerPeg[i] = new Peg(0, 0, generator.nextInt(2 * diffLevel));
 
                     } //End for
 
@@ -250,6 +262,32 @@ class MastermindGUI extends JPanel {
                         endGame();
                     } //End if
                 } //End else
+            }
+            if (event.getSource() == endGameItem) {
+                endGame();
+            } //End if
+            if (event.getSource() == exitItem) {
+                System.exit(0);
+            } //End if
+            if (event.getSource() == rulesItem) {
+                JOptionPane.showOptionDialog(Mastermind.frame,  "Flow of Gameplay:\n" +
+                                                                "  Click \"New Game\" to start a new game.\n" +
+                                                                "  Select your difficulty level.\n" +
+                                                                "  Select a guess color from the available colors.\n" +
+                                                                "  Place selected color in desired empty location.\n" +
+                                                                "  When ready click \"Make Guess\"\n" +
+                                                                "  Use the Master's response to make your next guess.\n\n" +
+                                                                "Evaluation of Your Guess:\n" +
+                                                                "  Red: correct color and location.\n" +
+                                                                "  White: correct color but incorrect location.\n\n" +
+                                                                "The Master's response peg placement is random!",
+                                                                "Rules", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+            } //End if
+            if (event.getSource() == aboutItem) {
+                JOptionPane.showOptionDialog(Mastermind.frame, "             Mastermind\n" +
+                                                               "          Version 1.0.0.0",
+                                                               "About", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
             } //End if
 
             if(event.getSource() == guess && start) {
@@ -886,7 +924,7 @@ class MastermindGUI extends JPanel {
 
                 } //End if
                 else {
-                    JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "Please Select A Color For All Guess Pegs!");
+                    JOptionPane.showOptionDialog(Mastermind.frame, "Please Select A Color For All Guess Pegs!", "Invalid Guess", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
                 } //End else
 
             } //End if
@@ -896,7 +934,7 @@ class MastermindGUI extends JPanel {
 
     //End Game
     private void endGame() {
-        JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Better Luck Next Time!</center></body></html>");
+        JOptionPane.showMessageDialog(Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Better Luck Next Time!</center></body></html>", "You Lose!", JOptionPane.INFORMATION_MESSAGE);
         start = false;
         blue.setEnabled(false);
         red.setEnabled(false);
@@ -911,7 +949,7 @@ class MastermindGUI extends JPanel {
     }
 
     private void winGame() {
-        JOptionPane.showMessageDialog(com.steve.mastermind.Mastermind.frame, "Congratulations, You Won!");
+        JOptionPane.showMessageDialog(Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Congratulations, You Won!</center></body></html>", "You Win!", JOptionPane.INFORMATION_MESSAGE);
         start = false;
         blue.setEnabled(false);
         red.setEnabled(false);
@@ -937,161 +975,161 @@ class MastermindGUI extends JPanel {
             if (start) {
                 switch (guessRow) {
                     case 1:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)+200 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)+160) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)+200 && event.getY() > (Mastermind.frame.getHeight()/2)+160) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[0].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[1].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[2].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[3].color = color;
                             } //End if
                         } //End if
                         break;
                     case 2:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)+160 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)+120) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)+160 && event.getY() > (Mastermind.frame.getHeight()/2)+120) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[4].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[5].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[6].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[7].color = color;
                             } //End if
                         } //End if
                         break;
                     case 3:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)+120 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)+80) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)+120 && event.getY() > (Mastermind.frame.getHeight()/2)+80) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[8].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[9].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[10].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[11].color = color;
                             } //End if
                         } //End if
                         break;
                     case 4:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)+80 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)+40) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)+80 && event.getY() > (Mastermind.frame.getHeight()/2)+40) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[12].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[13].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[14].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[15].color = color;
                             } //End if
                         } //End if
                         break;
                     case 5:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)+40 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)+40 && event.getY() > (Mastermind.frame.getHeight()/2)) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[16].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[17].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[18].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[19].color = color;
                             } //End if
                         } //End if
                         break;
                     case 6:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2) && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)-40) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2) && event.getY() > (Mastermind.frame.getHeight()/2)-40) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[20].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[21].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[22].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[23].color = color;
                             } //End if
                         } //End if
                         break;
                     case 7:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)-40 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)-80) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)-40 && event.getY() > (Mastermind.frame.getHeight()/2)-80) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[24].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[25].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[26].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[27].color = color;
                             } //End if
                         } //End if
                         break;
                     case 8:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)-80 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)-120) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)-80 && event.getY() > (Mastermind.frame.getHeight()/2)-120) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[28].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[29].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[30].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[31].color = color;
                             } //End if
                         } //End if
                         break;
                     case 9:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)-120 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)-160) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)-120 && event.getY() > (Mastermind.frame.getHeight()/2)-160) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[32].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[33].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[34].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[35].color = color;
                             } //End if
                         } //End if
                         break;
                     case 10:
-                        if (event.getY() < (com.steve.mastermind.Mastermind.frame.getHeight()/2)-160 && event.getY() > (com.steve.mastermind.Mastermind.frame.getHeight()/2)-200) {
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/8 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/16)-15) {
+                        if (event.getY() < (Mastermind.frame.getHeight()/2)-160 && event.getY() > (Mastermind.frame.getHeight()/2)-200) {
+                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
                                 guessPeg[36].color = color;
                             } //End if
-                            if (event.getX() < (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/8) {
+                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
                                 guessPeg[37].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/4 && event.getX() > (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
                                 guessPeg[38].color = color;
                             } //End if
-                            if (event.getX() < com.steve.mastermind.Mastermind.frame.getWidth()/3 && event.getX() > com.steve.mastermind.Mastermind.frame.getWidth()/4) {
+                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
                                 guessPeg[39].color = color;
                             } //End if
                         } //End if
