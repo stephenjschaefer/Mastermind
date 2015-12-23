@@ -24,6 +24,8 @@ class MastermindGUI extends JPanel {
     private final JButton white = new JButton("White");
     private final JButton guess = new JButton("Make Guess");
     private final JButton newGame = new JButton("New Game");
+    private final JMenuItem newGameItem = new JMenuItem("New Game");
+    private final JMenuItem endGameItem = new JMenuItem("Give Up");
     private int guessRow = 1;
     private final JLabel currentGuess = new JLabel("Current Guess:");
     private final JLabel guessNum = new JLabel("0");
@@ -37,8 +39,8 @@ class MastermindGUI extends JPanel {
     private Boolean start = false;
 
     public MastermindGUI() {
-        JPanel colorSelect = new JPanel();
 
+        //Handlers
         ButtonHandler buttonHandle = new ButtonHandler();
         com.steve.mastermind.Mastermind.frame.addMouseListener(new MouseHandler());
 
@@ -61,6 +63,39 @@ class MastermindGUI extends JPanel {
         white.setEnabled(false);
         guess.setEnabled(false);
 
+        //Menu Bar
+        JMenuBar menuBar = new JMenuBar();
+
+        //Menus
+        JMenu fileMenu = new JMenu("File");
+        JMenu gameMenu = new JMenu("Game");
+        JMenu helpMenu = new JMenu("Help");
+
+        //Menu Items
+        JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem rulesItem = new JMenuItem("Rules");
+        JMenuItem aboutItem = new JMenuItem("About");
+
+        //Add Menu Items To Menus
+        fileMenu.add(exitItem);
+        gameMenu.add(newGameItem);
+        gameMenu.add(endGameItem);
+        gameMenu.addSeparator();
+        gameMenu.add(rulesItem);
+        helpMenu.add(aboutItem);
+
+        //Add Menus to Menu Bar
+        menuBar.add(fileMenu);
+        menuBar.add(gameMenu);
+        menuBar.add(helpMenu);
+
+        //Set Game Menu Item Initial State
+        newGameItem.setEnabled(true);
+        endGameItem.setEnabled(false);
+
+        //ColorSelect Panel
+        JPanel colorSelect = new JPanel();
+
         //Add buttons
         colorSelect.setLayout(new FlowLayout());
         colorSelect.add(blue);
@@ -70,8 +105,21 @@ class MastermindGUI extends JPanel {
         colorSelect.add(yellow);
         colorSelect.add(white);
 
+        //SideBar Panel
         JPanel sideBar = new JPanel();
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
+
+        //Add elements
+        sideBar.add(Box.createRigidArea(new Dimension(132,18)));
+        sideBar.add(newGame);
+        sideBar.add(Box.createRigidArea(new Dimension(132,247)));
+        sideBar.add(currentGuess);
+        sideBar.add(guessNum);
+        sideBar.add(Box.createRigidArea(new Dimension(132,20)));
+        sideBar.add(currentColor);
+        sideBar.add(selectedColor);
+        sideBar.add(Box.createRigidArea(new Dimension(132,20)));
+        sideBar.add(guess);
 
         //Set element attributes
         newGame.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -81,19 +129,8 @@ class MastermindGUI extends JPanel {
         currentColor.setAlignmentX(Component.CENTER_ALIGNMENT);
         selectedColor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        //Add elements
-        sideBar.add(Box.createRigidArea(new Dimension(0,18)));
-        sideBar.add(newGame);
-        sideBar.add(Box.createRigidArea(new Dimension(0,247)));
-        sideBar.add(currentGuess);
-        sideBar.add(guessNum);
-        sideBar.add(Box.createRigidArea(new Dimension(0,20)));
-        sideBar.add(currentColor);
-        sideBar.add(selectedColor);
-        sideBar.add(Box.createRigidArea(new Dimension(0,20)));
-        sideBar.add(guess);
-
-        //Add all panels together
+        //Set Menu Bar and Add All Panels
+        com.steve.mastermind.Mastermind.frame.setJMenuBar(menuBar);
         com.steve.mastermind.Mastermind.frame.add(colorSelect, BorderLayout.SOUTH);
         com.steve.mastermind.Mastermind.frame.add(sideBar, BorderLayout.EAST);
         com.steve.mastermind.Mastermind.frame.add(this, BorderLayout.CENTER);
@@ -171,6 +208,10 @@ class MastermindGUI extends JPanel {
                     white.setEnabled(true);
                     guess.setEnabled(true);
 
+                    //Set Game Menu Item State
+                    newGameItem.setEnabled(false);
+                    endGameItem.setEnabled(true);
+
                     //Adjust Based On Difficulty Setting
                     int diffLevel;
                     switch (diffSetting) {
@@ -200,6 +241,7 @@ class MastermindGUI extends JPanel {
 
                     } //End for
 
+                    //Start Game
                     start = true;
                     newGame.setText("Give Up?");
                 } //End if
@@ -209,6 +251,7 @@ class MastermindGUI extends JPanel {
                     } //End if
                 } //End else
             } //End if
+
             if(event.getSource() == guess && start) {
                 Boolean validGuess = true;
                 switch (guessRow) {
@@ -863,6 +906,8 @@ class MastermindGUI extends JPanel {
         white.setEnabled(false);
         guess.setEnabled(false);
         newGame.setText("New Game");
+        newGameItem.setEnabled(true);
+        endGameItem.setEnabled(false);
     }
 
     private void winGame() {
@@ -876,6 +921,8 @@ class MastermindGUI extends JPanel {
         white.setEnabled(false);
         guess.setEnabled(false);
         newGame.setText("New Game");
+        newGameItem.setEnabled(true);
+        endGameItem.setEnabled(false);
     }
 
     //Mouse Handler
@@ -1084,13 +1131,6 @@ class MastermindGUI extends JPanel {
 
         //Draw Divider
         g2d.draw(new Line2D.Double(195.0, 20.0, 195.0, 420.0));
-
-        //Mouse range test
-        g2d.setPaint(Color.RED);
-        //g2d.draw(new Line2D.Double(com.steve.mastermind.Mastermind.frame.getWidth()/2, 20, com.steve.mastermind.Mastermind.frame.getWidth()/2, 420));
-        //g2d.draw(new Line2D.Double(com.steve.mastermind.Mastermind.frame.getWidth()/3, 20, com.steve.mastermind.Mastermind.frame.getWidth()/3, 420));
-        //g2d.draw(new Line2D.Double(com.steve.mastermind.Mastermind.frame.getWidth()/4, 20, com.steve.mastermind.Mastermind.frame.getWidth()/4, 420));
-        //g2d.draw(new Line2D.Double((com.steve.mastermind.Mastermind.frame.getWidth()/4)-30, 20, (com.steve.mastermind.Mastermind.frame.getWidth()/4)-30, 420));
 
         //Draw Guess Pegs
         for (Peg aGuessPeg : guessPeg) {

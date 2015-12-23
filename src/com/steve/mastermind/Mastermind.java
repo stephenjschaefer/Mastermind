@@ -14,7 +14,7 @@ class Mastermind {
         JPanel MastermindGUI = new MastermindGUI();
         frame.add(MastermindGUI);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize( 500, 500 );
+        frame.setSize(530, 530);
         frame.setTitle("Mastermind");
         frame.setVisible(true);
     } //End main
