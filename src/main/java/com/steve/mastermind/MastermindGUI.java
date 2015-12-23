@@ -30,9 +30,7 @@ class MastermindGUI extends JPanel {
     private final JMenuItem rulesItem = new JMenuItem("Rules");
     private final JMenuItem aboutItem = new JMenuItem("About");
     private int guessRow = 1;
-    private final JLabel currentGuess = new JLabel("Current Guess:");
     private final JLabel guessNum = new JLabel("0");
-    JLabel currentColor = new JLabel("Current Color:");
     private final JLabel selectedColor = new JLabel("----------");
     private int color = 6;
     private final Peg[] guessPeg = new Peg[40];
@@ -125,9 +123,11 @@ class MastermindGUI extends JPanel {
         sideBar.add(Box.createRigidArea(new Dimension(132,18)));
         sideBar.add(newGame);
         sideBar.add(Box.createRigidArea(new Dimension(132,247)));
+        JLabel currentGuess = new JLabel("Current Guess:");
         sideBar.add(currentGuess);
         sideBar.add(guessNum);
         sideBar.add(Box.createRigidArea(new Dimension(132,20)));
+        JLabel currentColor = new JLabel("Current Color:");
         sideBar.add(currentColor);
         sideBar.add(selectedColor);
         sideBar.add(Box.createRigidArea(new Dimension(132,20)));
