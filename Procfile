@@ -1,1 +1,1 @@
-web: java -jar target/Mastermind.jar
+web: java -jar target/Mastermind-1.0-SNAPSHOT.jar
