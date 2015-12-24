@@ -31,6 +31,25 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jarsigner-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <keystore>"C:\Program Files\Java\jre1.8.0_66\bin\appkeys"</keystore>
+                    <alias>SteveSchaefer</alias>
+                    <storepass>steveappkeys</storepass>
+                    <keypass>steveappkeys</keypass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
