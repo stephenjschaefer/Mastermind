@@ -374,6 +374,29 @@ class MastermindGUI extends JPanel {
                     } //End for
                     int redCount = 0;
                     int whiteCount = 0;
+
+                    //Refactored Guess Evaluation Logic
+                    for (int i=(guessRow*4)-4; i<(guessRow*4); i++) {
+                        for (int j=0; j<4; j++) {
+                            if (guessPeg[i].color == answerPeg[i%4].color) {
+                                redCount++;
+                                if (answerPeg[i%4].tagged) {
+                                    whiteCount--;
+                                } //End if
+                                answerPeg[i%4].tagged = true;
+                                break;
+                            } //End if
+                            else {
+                                if (guessPeg[i].color == answerPeg[j].color && i!=j && !answerPeg[j].tagged) {
+                                    whiteCount++;
+                                    answerPeg[j].tagged = true;
+                                    break;
+                                } //End if
+                            } //End else
+                        } //End for
+                    } //End for
+
+                    /*
                     switch (guessRow) {
                         case 1:
                             for (int i=0; i<4; i++) {
@@ -598,7 +621,39 @@ class MastermindGUI extends JPanel {
                         default:
                             break;
                     } //End switch
+                    */
 
+                    //Refactored Set Evaluation Pegs Logic
+                    int evalCount = 0;
+                    int rnd;
+                    for (int i = 0; i< redCount; i++) {
+                        rnd = generator.nextInt(4);
+                        if (evalPeg[rnd+((guessRow-1)*4)].color == 6) {
+                            evalPeg[rnd+((guessRow-1)*4)].color = 0;
+                            evalCount++;
+                        } //End if
+                        else {
+                            i--;
+                        } //End else
+                    } //End for
+
+                    for (int i = 0; i< whiteCount; i++) {
+                        if (evalCount == 4) {
+                            break;
+                        } //End if
+                        else {
+                            rnd = generator.nextInt(4);
+                            if (evalPeg[rnd+((guessRow-1)*4)].color == 6) {
+                                evalPeg[rnd+((guessRow-1)*4)].color = 1;
+                                evalCount++;
+                            } //End if
+                            else {
+                                i--;
+                            } //End else
+                        } //End else
+                    } //End for
+
+                    /*
                     //Set eval pegs based on eval
                     int evalCount = 0;
                     switch (guessRow) {
@@ -896,9 +951,12 @@ class MastermindGUI extends JPanel {
                         default:
                             break;
                     } //End switch
+                    */
 
-                    guessRow++;
+                    //Refactored Set Guess Number Logic
+                    guessNum.setText(guessRow + "");
 
+                    /*
                     switch (guessRow) {
                         case 1: guessNum.setText("1"); break;
                         case 2: guessNum.setText("2"); break;
@@ -912,6 +970,7 @@ class MastermindGUI extends JPanel {
                         case 10: guessNum.setText("10"); break;
                         default: break;
                     } //End switch
+                    */
 
                     if (redCount == 4) {
                         winGame();
@@ -921,6 +980,9 @@ class MastermindGUI extends JPanel {
                             endGame();
                         } //End if
                     } //End else
+
+                    //Increment Guess Row Count
+                    guessRow++;
 
                 } //End if
                 else {
