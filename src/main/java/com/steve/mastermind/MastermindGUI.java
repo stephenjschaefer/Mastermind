@@ -292,6 +292,15 @@ class MastermindGUI extends JPanel {
 
             if(event.getSource() == guess && start) {
                 Boolean validGuess = true;
+
+                //Refactored Valid Guess Logic
+                for (int i=((guessRow-1)*4); i<(guessRow*4); i++) {
+                    if (guessPeg[i].color == 6) {
+                        validGuess = false;
+                    } //End if
+                } //End for
+
+                /*
                 switch (guessRow) {
                     case 1:
                         for (int i=0; i<4; i++) {
@@ -366,6 +375,7 @@ class MastermindGUI extends JPanel {
                     default:
                         break;
                 } //End switch
+                */
 
                 //Perform Evaluation
                 if (validGuess) {
