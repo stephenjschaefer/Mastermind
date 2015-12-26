@@ -38,6 +38,8 @@ class MastermindGUI extends JPanel {
     private final Peg[] answerPeg = new Peg[4];
     private final Random generator = new Random();
     private Boolean start = false;
+    private int rnd = 0;
+    private int evalCount = 0;
 
     public MastermindGUI() {
 
@@ -174,26 +176,32 @@ class MastermindGUI extends JPanel {
         public void actionPerformed(ActionEvent event) {
             if(event.getSource() == blue && start) {
                 selectedColor.setText("Blue");
+                selectedColor.setForeground(Color.BLUE);
                 color = 0;
             } //End if
             if(event.getSource() == red && start) {
                 selectedColor.setText("Red");
+                selectedColor.setForeground(Color.RED);
                 color = 1;
             } //End if
             if(event.getSource() == orange && start) {
                 selectedColor.setText("Orange");
+                selectedColor.setForeground(Color.ORANGE);
                 color = 2;
             } //End if
             if(event.getSource() == green && start) {
                 selectedColor.setText("Green");
+                selectedColor.setForeground(Color.GREEN);
                 color = 3;
             } //End if
             if(event.getSource() == yellow && start) {
                 selectedColor.setText("Yellow");
+                selectedColor.setForeground(Color.YELLOW);
                 color = 4;
             } //End if
             if(event.getSource() == white && start) {
                 selectedColor.setText("White");
+                selectedColor.setForeground(Color.WHITE);
                 color = 5;
             } //End if
             if(event.getSource() == newGame || event.getSource() == newGameItem) {
@@ -330,8 +338,7 @@ class MastermindGUI extends JPanel {
                     } //End for
 
                     //Refactored Set Evaluation Pegs Logic
-                    int evalCount = 0;
-                    int rnd;
+                    evalCount = 0;
                     for (int i = 0; i< redCount; i++) {
                         rnd = generator.nextInt(4);
                         if (evalPeg[rnd+((guessRow-1)*4)].color == 6) {
@@ -363,10 +370,12 @@ class MastermindGUI extends JPanel {
                     guessNum.setText(guessRow + "");
 
                     if (redCount == 4) {
+                        repaint();
                         winGame();
                     } //End if
                     else {
                         if (guessRow == 11) {
+                            repaint();
                             endGame();
                         } //End if
                     } //End else
