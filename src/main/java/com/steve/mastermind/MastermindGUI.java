@@ -117,23 +117,69 @@ class MastermindGUI extends JPanel {
         colorSelect.add(yellow);
         colorSelect.add(white);
 
-        //SideBar Panel
-        JPanel sideBar = new JPanel();
-        sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
+        //leftSideBar Panel
+        JPanel leftSideBar = new JPanel();
+        leftSideBar.setLayout(new BoxLayout(leftSideBar, BoxLayout.Y_AXIS));
 
         //Add elements
-        sideBar.add(Box.createRigidArea(new Dimension(132,18)));
-        sideBar.add(newGame);
-        sideBar.add(Box.createRigidArea(new Dimension(132,125)));
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,30)));
+        JLabel guessLabel10 = new JLabel("Guess #10");
+        guessLabel10.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel10);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
+        JLabel guessLabel9 = new JLabel("Guess #9");
+        guessLabel9.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel9);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
+        JLabel guessLabel8 = new JLabel("Guess #8");
+        guessLabel8.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel8);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
+        JLabel guessLabel7 = new JLabel("Guess #7");
+        guessLabel7.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel7);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
+        JLabel guessLabel6 = new JLabel("Guess #6");
+        guessLabel6.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel6);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
+        JLabel guessLabel5 = new JLabel("Guess #5");
+        guessLabel5.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel5);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
+        JLabel guessLabel4 = new JLabel("Guess #4");
+        guessLabel4.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel4);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
+        JLabel guessLabel3 = new JLabel("Guess #3");
+        guessLabel3.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel3);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
+        JLabel guessLabel2 = new JLabel("Guess #2");
+        guessLabel2.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel2);
+        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
+        JLabel guessLabel1 = new JLabel("Guess #1");
+        guessLabel1.setHorizontalAlignment(JLabel.CENTER);
+        leftSideBar.add(guessLabel1);
+
+        //rightSideBar Panel
+        JPanel rightSideBar = new JPanel();
+        rightSideBar.setLayout(new BoxLayout(rightSideBar, BoxLayout.Y_AXIS));
+
+        //Add elements
+        rightSideBar.add(Box.createRigidArea(new Dimension(132,18)));
+        rightSideBar.add(newGame);
+        rightSideBar.add(Box.createRigidArea(new Dimension(132,125)));
         JLabel currentGuess = new JLabel("Current Guess:");
-        sideBar.add(currentGuess);
-        sideBar.add(guessNum);
-        sideBar.add(Box.createRigidArea(new Dimension(132,20)));
+        rightSideBar.add(currentGuess);
+        rightSideBar.add(guessNum);
+        rightSideBar.add(Box.createRigidArea(new Dimension(132,20)));
         JLabel currentColor = new JLabel("Current Color:");
-        sideBar.add(currentColor);
-        sideBar.add(selectedColor);
-        sideBar.add(Box.createRigidArea(new Dimension(132,140)));
-        sideBar.add(guess);
+        rightSideBar.add(currentColor);
+        rightSideBar.add(selectedColor);
+        rightSideBar.add(Box.createRigidArea(new Dimension(132,140)));
+        rightSideBar.add(guess);
 
         //Set element attributes
         newGame.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -146,7 +192,8 @@ class MastermindGUI extends JPanel {
         //Set Menu Bar and Add All Panels
         Mastermind.frame.setJMenuBar(menuBar);
         Mastermind.frame.add(colorSelect, BorderLayout.SOUTH);
-        Mastermind.frame.add(sideBar, BorderLayout.EAST);
+        Mastermind.frame.add(leftSideBar, BorderLayout.WEST);
+        Mastermind.frame.add(rightSideBar, BorderLayout.EAST);
         Mastermind.frame.add(this, BorderLayout.CENTER);
 
         //Initialize Guess Peg Array
