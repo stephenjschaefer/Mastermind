@@ -510,20 +510,54 @@ class MastermindGUI extends JPanel {
 
         public void mouseClicked(MouseEvent event) {
             if (start) {
+                //Refactored Mouse Click Event Handler Logic
+                if (event.getY() > (Mastermind.frame.getHeight()-65-(40*(guessRow))) && event.getY() < (Mastermind.frame.getHeight()-65-(40*(guessRow-1)))) {
+                    if (event.getX() > 100 && event.getX() < 122) {
+                        guessPeg[(guessRow-1)+(3*(guessRow-1))].color = color;
+                    } //End if
+                    if (event.getX() > 140 && event.getX() < 162) {
+                        guessPeg[guessRow-1+1+(3*(guessRow-1))].color = color;
+                    } //End if
+                    if (event.getX() > 180 && event.getX() < 202) {
+                        guessPeg[guessRow-1+2+(3*(guessRow-1))].color = color;
+                    } //End if
+                    if (event.getX() > 220 && event.getX() < 242) {
+                        guessPeg[guessRow-1+3+(3*(guessRow-1))].color = color;
+                    } //End if
+                } //End if
+
+                /*
                 switch (guessRow) {
                     //TODO: Adjust Mouse Handler X Coordinates To Account For Left Sidebar
+                    // Row 1   425 - 465
+                    // Row 2   385 - 425
+                    // Row 3   345 - 385
+                    // Row 4   305 - 345
+                    // Row 5   265 - 305
+                    // Row 6   225 - 265
+                    // Row 7   185 - 225
+                    // Row 8   145 - 185
+                    // Row 9   105 - 145
+                    // Row 10   65 - 105
+                    // Frame Height (530) - 65 (colors) - 40 * row number
+                    // 1: 530-65-(40*0) = 465
+                    // 2: 530-65-(40*1) =
+                    // 3: 530-65-(40*2)
+                    // 4: 530-65-(40*3)
+
                     case 1:
-                        if (event.getY() < (Mastermind.frame.getHeight()/2)+200 && event.getY() > (Mastermind.frame.getHeight()/2)+160) {
-                            if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
+                        //if (event.getY() < (Mastermind.frame.getHeight()/2)+200 && event.getY() > (Mastermind.frame.getHeight()/2)+160) {
+                        if (event.getY() > (Mastermind.frame.getHeight()-65-(40*(guessRow))) && event.getY() < (Mastermind.frame.getHeight()-65-(40*(guessRow-1)))) {
+                            if (event.getX() > 100 && event.getX() < 122) {
                                 guessPeg[0].color = color;
                             } //End if
-                            if (event.getX() < (Mastermind.frame.getWidth()/4)-30 && event.getX() > Mastermind.frame.getWidth()/8) {
+                            if (event.getX() > 140 && event.getX() < 162) {
                                 guessPeg[1].color = color;
                             } //End if
-                            if (event.getX() < Mastermind.frame.getWidth()/4 && event.getX() > (Mastermind.frame.getWidth()/4)-30) {
+                            if (event.getX() > 180 && event.getX() < 202) {
                                 guessPeg[2].color = color;
                             } //End if
-                            if (event.getX() < Mastermind.frame.getWidth()/3 && event.getX() > Mastermind.frame.getWidth()/4) {
+                            if (event.getX() > 220 && event.getX() < 242) {
                                 guessPeg[3].color = color;
                             } //End if
                         } //End if
@@ -674,6 +708,7 @@ class MastermindGUI extends JPanel {
                         break;
                     default: break;
                 } //End switch
+                */
             } //End if
 
             repaint();

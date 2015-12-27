@@ -17,6 +17,8 @@ class Mastermind {
         frame.setSize(600, 530);
         frame.setTitle("Mastermind");
         frame.setVisible(true);
+        frame.setResizable(false);
+
     } //End main
 
 } //End class
