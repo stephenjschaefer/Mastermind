@@ -40,6 +40,17 @@ class MastermindGUI extends JPanel {
     private Boolean start = false;
     private int rnd = 0;
     private int evalCount = 0;
+    private JLabel guessLabel1 = new JLabel("Guess #1");
+    private JLabel guessLabel2 = new JLabel("Guess #2");
+    private JLabel guessLabel3 = new JLabel("Guess #3");
+    private JLabel guessLabel4 = new JLabel("Guess #4");
+    private JLabel guessLabel5 = new JLabel("Guess #5");
+    private JLabel guessLabel6 = new JLabel("Guess #6");
+    private JLabel guessLabel7 = new JLabel("Guess #7");
+    private JLabel guessLabel8 = new JLabel("Guess #8");
+    private JLabel guessLabel9 = new JLabel("Guess #9");
+    private JLabel guessLabel10 = new JLabel("Guess #10");
+    private JLabel[] guessLabelArray = {guessLabel1, guessLabel2, guessLabel3, guessLabel4, guessLabel5, guessLabel6, guessLabel7, guessLabel8, guessLabel9, guessLabel10};
 
     public MastermindGUI() {
 
@@ -123,45 +134,45 @@ class MastermindGUI extends JPanel {
 
         //Add elements
         leftSideBar.add(Box.createRigidArea(new Dimension(30,30)));
-        JLabel guessLabel10 = new JLabel("Guess #10");
-        guessLabel10.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel10 = new JLabel("Guess #10");
         leftSideBar.add(guessLabel10);
+        guessLabel10.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        JLabel guessLabel9 = new JLabel("Guess #9");
-        guessLabel9.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel9 = new JLabel("Guess #9");
         leftSideBar.add(guessLabel9);
+        guessLabel9.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        JLabel guessLabel8 = new JLabel("Guess #8");
-        guessLabel8.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel8 = new JLabel("Guess #8");
         leftSideBar.add(guessLabel8);
+        guessLabel8.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        JLabel guessLabel7 = new JLabel("Guess #7");
-        guessLabel7.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel7 = new JLabel("Guess #7");
         leftSideBar.add(guessLabel7);
+        guessLabel7.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        JLabel guessLabel6 = new JLabel("Guess #6");
-        guessLabel6.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel6 = new JLabel("Guess #6");
         leftSideBar.add(guessLabel6);
+        guessLabel6.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        JLabel guessLabel5 = new JLabel("Guess #5");
-        guessLabel5.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel5 = new JLabel("Guess #5");
         leftSideBar.add(guessLabel5);
+        guessLabel5.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        JLabel guessLabel4 = new JLabel("Guess #4");
-        guessLabel4.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel4 = new JLabel("Guess #4");
         leftSideBar.add(guessLabel4);
+        guessLabel4.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        JLabel guessLabel3 = new JLabel("Guess #3");
-        guessLabel3.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel3 = new JLabel("Guess #3");
         leftSideBar.add(guessLabel3);
+        guessLabel3.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        JLabel guessLabel2 = new JLabel("Guess #2");
-        guessLabel2.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel2 = new JLabel("Guess #2");
         leftSideBar.add(guessLabel2);
+        guessLabel2.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        JLabel guessLabel1 = new JLabel("Guess #1");
-        guessLabel1.setHorizontalAlignment(JLabel.CENTER);
+        //JLabel guessLabel1 = new JLabel("Guess #1");
         leftSideBar.add(guessLabel1);
+        guessLabel1.setHorizontalAlignment(JLabel.CENTER);
 
         //rightSideBar Panel
         JPanel rightSideBar = new JPanel();
@@ -310,6 +321,7 @@ class MastermindGUI extends JPanel {
 
                     //Start Game
                     start = true;
+                    updateGuessLabel(guessRow);
                     newGame.setText("Give Up?");
                 } //End if
                 else {
@@ -413,8 +425,8 @@ class MastermindGUI extends JPanel {
                         } //End else
                     } //End for
 
-                    //Refactored Set Guess Number Logic
-                    guessNum.setText(guessRow + "");
+                    //Increment Guess Row Count
+                    guessRow++;
 
                     if (redCount == 4) {
                         repaint();
@@ -427,8 +439,13 @@ class MastermindGUI extends JPanel {
                         } //End if
                     } //End else
 
-                    //Increment Guess Row Count
-                    guessRow++;
+                    if (guessRow < 11 && redCount < 4) {
+                        //Update Guess Number Labels
+                        updateGuessLabel(guessRow);
+
+                        //Refactored Set Guess Number Logic
+                        guessNum.setText(guessRow + "");
+                    }
 
                 } //End if
                 else {
@@ -471,6 +488,18 @@ class MastermindGUI extends JPanel {
         endGameItem.setEnabled(false);
     }
 
+    private void updateGuessLabel(int guessRow) {
+        if (guessRow == 1) {
+            for (int i=0; i<guessLabelArray.length; i++) {
+                guessLabelArray[i].setForeground(Color.BLACK);
+            }
+            guessLabelArray[guessRow-1].setForeground(Color.BLUE);
+        } else {
+            guessLabelArray[guessRow-1].setForeground(Color.BLUE);
+            guessLabelArray[guessRow-2].setForeground(Color.BLACK);
+        }
+    }
+
     //Mouse Handler
     private class MouseHandler implements MouseListener {
 
@@ -482,6 +511,7 @@ class MastermindGUI extends JPanel {
         public void mouseClicked(MouseEvent event) {
             if (start) {
                 switch (guessRow) {
+                    //TODO: Adjust Mouse Handler X Coordinates To Account For Left Sidebar
                     case 1:
                         if (event.getY() < (Mastermind.frame.getHeight()/2)+200 && event.getY() > (Mastermind.frame.getHeight()/2)+160) {
                             if (event.getX() < Mastermind.frame.getWidth()/8 && event.getX() > (Mastermind.frame.getWidth()/16)-15) {
