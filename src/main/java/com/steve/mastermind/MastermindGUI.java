@@ -272,6 +272,7 @@ class MastermindGUI extends JPanel {
                     guessNum.setText("1");
                     color = 6;
                     selectedColor.setText("----------");
+                    selectedColor.setForeground(Color.BLACK);
 
                     // Difficulty Setting Prompt
                     Object[] options = {"Easy", "Medium", "Hard"};
@@ -289,6 +290,10 @@ class MastermindGUI extends JPanel {
                     //Set Game Menu Item State
                     newGameItem.setEnabled(false);
                     endGameItem.setEnabled(true);
+
+                    //Update GUI For New Game
+                    updateGuessLabel(guessRow);
+                    newGame.setText("Give Up?");
 
                     //Adjust Based On Difficulty Setting
                     int diffLevel;
@@ -316,13 +321,10 @@ class MastermindGUI extends JPanel {
                     //Initialize Answer Pegs And Answer String
                     for (int i = 0; i < 4; i++) {
                         answerPeg[i] = new Peg(0, 0, generator.nextInt(2 * diffLevel));
-
                     } //End for
 
                     //Start Game
                     start = true;
-                    updateGuessLabel(guessRow);
-                    newGame.setText("Give Up?");
                 } //End if
                 else {
                     if (newGame.getText().equals("Give Up?")) {
