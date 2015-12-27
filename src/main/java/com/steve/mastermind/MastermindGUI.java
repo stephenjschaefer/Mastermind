@@ -134,43 +134,33 @@ class MastermindGUI extends JPanel {
 
         //Add elements
         leftSideBar.add(Box.createRigidArea(new Dimension(30,30)));
-        //JLabel guessLabel10 = new JLabel("Guess #10");
         leftSideBar.add(guessLabel10);
         guessLabel10.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        //JLabel guessLabel9 = new JLabel("Guess #9");
         leftSideBar.add(guessLabel9);
         guessLabel9.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        //JLabel guessLabel8 = new JLabel("Guess #8");
         leftSideBar.add(guessLabel8);
         guessLabel8.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        //JLabel guessLabel7 = new JLabel("Guess #7");
         leftSideBar.add(guessLabel7);
         guessLabel7.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        //JLabel guessLabel6 = new JLabel("Guess #6");
         leftSideBar.add(guessLabel6);
         guessLabel6.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        //JLabel guessLabel5 = new JLabel("Guess #5");
         leftSideBar.add(guessLabel5);
         guessLabel5.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        //JLabel guessLabel4 = new JLabel("Guess #4");
         leftSideBar.add(guessLabel4);
         guessLabel4.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        //JLabel guessLabel3 = new JLabel("Guess #3");
         leftSideBar.add(guessLabel3);
         guessLabel3.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
-        //JLabel guessLabel2 = new JLabel("Guess #2");
         leftSideBar.add(guessLabel2);
         guessLabel2.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
-        //JLabel guessLabel1 = new JLabel("Guess #1");
         leftSideBar.add(guessLabel1);
         guessLabel1.setHorizontalAlignment(JLabel.CENTER);
 
