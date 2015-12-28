@@ -518,9 +518,7 @@ class MastermindGUI extends JPanel {
                     } //End if
                 } //End if
             } //End if
-
             repaint();
-
         } //End method
     } // End class
 
