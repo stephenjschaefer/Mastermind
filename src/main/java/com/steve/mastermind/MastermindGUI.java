@@ -13,6 +13,9 @@ package com.steve.mastermind;
     import java.awt.geom.Line2D;
     import java.util.Random;
 
+/**
+ * This class contains the methods to present the Mastermind GUI and process events.
+ */
 class MastermindGUI extends JPanel {
 
     // Declarations
@@ -38,19 +41,18 @@ class MastermindGUI extends JPanel {
     private final Peg[] answerPeg = new Peg[4];
     private final Random generator = new Random();
     private Boolean start = false;
-    private int rnd = 0;
-    private int evalCount = 0;
-    private JLabel guessLabel1 = new JLabel("Guess #1");
-    private JLabel guessLabel2 = new JLabel("Guess #2");
-    private JLabel guessLabel3 = new JLabel("Guess #3");
-    private JLabel guessLabel4 = new JLabel("Guess #4");
-    private JLabel guessLabel5 = new JLabel("Guess #5");
-    private JLabel guessLabel6 = new JLabel("Guess #6");
-    private JLabel guessLabel7 = new JLabel("Guess #7");
-    private JLabel guessLabel8 = new JLabel("Guess #8");
-    private JLabel guessLabel9 = new JLabel("Guess #9");
-    private JLabel guessLabel10 = new JLabel("Guess #10");
-    private JLabel[] guessLabelArray = {guessLabel1, guessLabel2, guessLabel3, guessLabel4, guessLabel5, guessLabel6, guessLabel7, guessLabel8, guessLabel9, guessLabel10};
+    private final JLabel guessLabel1 = new JLabel("Guess #1");
+    private final JLabel guessLabel2 = new JLabel("Guess #2");
+    private final JLabel guessLabel3 = new JLabel("Guess #3");
+    private final JLabel guessLabel4 = new JLabel("Guess #4");
+    private final JLabel guessLabel5 = new JLabel("Guess #5");
+    private final JLabel guessLabel6 = new JLabel("Guess #6");
+    private final JLabel guessLabel7 = new JLabel("Guess #7");
+    private final JLabel guessLabel8 = new JLabel("Guess #8");
+    private final JLabel guessLabel9 = new JLabel("Guess #9");
+    private final JLabel guessLabel10 = new JLabel("Guess #10");
+    private final JLabel[] guessLabelArray = {guessLabel1, guessLabel2, guessLabel3, guessLabel4, guessLabel5, guessLabel6, guessLabel7, guessLabel8, guessLabel9, guessLabel10};
+    private int diffLevel = 1;
 
     public MastermindGUI() {
 
@@ -135,34 +137,24 @@ class MastermindGUI extends JPanel {
         //Add elements
         leftSideBar.add(Box.createRigidArea(new Dimension(30,30)));
         leftSideBar.add(guessLabel10);
-        guessLabel10.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
         leftSideBar.add(guessLabel9);
-        guessLabel9.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
         leftSideBar.add(guessLabel8);
-        guessLabel8.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
         leftSideBar.add(guessLabel7);
-        guessLabel7.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
         leftSideBar.add(guessLabel6);
-        guessLabel6.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
         leftSideBar.add(guessLabel5);
-        guessLabel5.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
         leftSideBar.add(guessLabel4);
-        guessLabel4.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
         leftSideBar.add(guessLabel3);
-        guessLabel3.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));
         leftSideBar.add(guessLabel2);
-        guessLabel2.setHorizontalAlignment(JLabel.CENTER);
         leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));
         leftSideBar.add(guessLabel1);
-        guessLabel1.setHorizontalAlignment(JLabel.CENTER);
 
         //rightSideBar Panel
         JPanel rightSideBar = new JPanel();
@@ -254,67 +246,7 @@ class MastermindGUI extends JPanel {
             } //End if
             if(event.getSource() == newGame || event.getSource() == newGameItem) {
                 if (newGame.getText().equals("New Game")) {
-                    for (int i = 0; i < 40; i++) {
-                        guessPeg[i].color = 6;
-                        evalPeg[i].color = 6;
-                    } //End for
-                    guessRow = 1;
-                    guessNum.setText("1");
-                    color = 6;
-                    selectedColor.setText("----------");
-                    selectedColor.setForeground(Color.BLACK);
-
-                    // Difficulty Setting Prompt
-                    Object[] options = {"Easy", "Medium", "Hard"};
-                    int diffSetting = JOptionPane.showOptionDialog(Mastermind.frame, "Select Your Difficulty Level", "Difficulty Setting", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-
-                    //Reset Buttons
-                    blue.setEnabled(true);
-                    red.setEnabled(true);
-                    orange.setEnabled(true);
-                    green.setEnabled(true);
-                    yellow.setEnabled(true);
-                    white.setEnabled(true);
-                    guess.setEnabled(true);
-
-                    //Set Game Menu Item State
-                    newGameItem.setEnabled(false);
-                    endGameItem.setEnabled(true);
-
-                    //Update GUI For New Game
-                    updateGuessLabel(guessRow);
-                    newGame.setText("Give Up?");
-
-                    //Adjust Based On Difficulty Setting
-                    int diffLevel;
-                    switch (diffSetting) {
-                        case JOptionPane.YES_OPTION:
-                            diffLevel = 1;
-                            orange.setEnabled(false);
-                            green.setEnabled(false);
-                            yellow.setEnabled(false);
-                            white.setEnabled(false);
-                            break;
-                        case JOptionPane.NO_OPTION:
-                            diffLevel = 2;
-                            yellow.setEnabled(false);
-                            white.setEnabled(false);
-                            break;
-                        case JOptionPane.CANCEL_OPTION:
-                            diffLevel = 3;
-                            break;
-                        default:
-                            diffLevel = 3;
-                            break;
-                    } //End switch
-
-                    //Initialize Answer Pegs And Answer String
-                    for (int i = 0; i < 4; i++) {
-                        answerPeg[i] = new Peg(0, 0, generator.nextInt(2 * diffLevel));
-                    } //End for
-
-                    //Start Game
-                    start = true;
+                    newGame();
                 } //End if
                 else {
                     if (newGame.getText().equals("Give Up?")) {
@@ -350,104 +282,47 @@ class MastermindGUI extends JPanel {
             } //End if
 
             if(event.getSource() == guess && start) {
-                Boolean validGuess = true;
-
-                //Refactored Valid Guess Logic
-                for (int i=((guessRow-1)*4); i<(guessRow*4); i++) {
-                    if (guessPeg[i].color == 6) {
-                        validGuess = false;
-                    } //End if
-                } //End fo
-
-                //Perform Evaluation
-                if (validGuess) {
-                    for (int i=0; i<4; i++) {
-                        answerPeg[i].tagged = false;
-                    } //End for
-                    int redCount = 0;
-                    int whiteCount = 0;
-
-                    //Refactored Guess Evaluation Logic
-                    for (int i=(guessRow*4)-4; i<(guessRow*4); i++) {
-                        for (int j=0; j<4; j++) {
-                            if (guessPeg[i].color == answerPeg[i%4].color) {
-                                redCount++;
-                                if (answerPeg[i%4].tagged) {
-                                    whiteCount--;
-                                } //End if
-                                answerPeg[i%4].tagged = true;
-                                break;
-                            } //End if
-                            else {
-                                if (guessPeg[i].color == answerPeg[j].color && i!=j && !answerPeg[j].tagged) {
-                                    whiteCount++;
-                                    answerPeg[j].tagged = true;
-                                    break;
-                                } //End if
-                            } //End else
-                        } //End for
-                    } //End for
-
-                    //Refactored Set Evaluation Pegs Logic
-                    evalCount = 0;
-                    for (int i = 0; i< redCount; i++) {
-                        rnd = generator.nextInt(4);
-                        if (evalPeg[rnd+((guessRow-1)*4)].color == 6) {
-                            evalPeg[rnd+((guessRow-1)*4)].color = 0;
-                            evalCount++;
-                        } //End if
-                        else {
-                            i--;
-                        } //End else
-                    } //End for
-
-                    for (int i = 0; i< whiteCount; i++) {
-                        if (evalCount == 4) {
-                            break;
-                        } //End if
-                        else {
-                            rnd = generator.nextInt(4);
-                            if (evalPeg[rnd+((guessRow-1)*4)].color == 6) {
-                                evalPeg[rnd+((guessRow-1)*4)].color = 1;
-                                evalCount++;
-                            } //End if
-                            else {
-                                i--;
-                            } //End else
-                        } //End else
-                    } //End for
-
-                    //Increment Guess Row Count
-                    guessRow++;
-
-                    if (redCount == 4) {
-                        repaint();
-                        winGame();
-                    } //End if
-                    else {
-                        if (guessRow == 11) {
-                            repaint();
-                            endGame();
-                        } //End if
-                    } //End else
-
-                    if (guessRow < 11 && redCount < 4) {
-                        //Update Guess Number Labels
-                        updateGuessLabel(guessRow);
-
-                        //Refactored Set Guess Number Logic
-                        guessNum.setText(guessRow + "");
-                    }
-
-                } //End if
-                else {
-                    JOptionPane.showOptionDialog(Mastermind.frame, "Please Select A Color For All Guess Pegs!", "Invalid Guess", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
-                } //End else
-
+                processGuess();
             } //End if
             repaint();
         } //End method
     } //End class
+
+    //New Game
+    private void newGame() {
+        for (int i = 0; i < 40; i++) {
+            guessPeg[i].color = 6;
+            evalPeg[i].color = 6;
+        } //End for
+        guessRow = 1;
+        guessNum.setText("1");
+        color = 6;
+        selectedColor.setText("----------");
+        selectedColor.setForeground(Color.BLACK);
+
+        //Reset Buttons
+        blue.setEnabled(true);
+        red.setEnabled(true);
+        orange.setEnabled(true);
+        green.setEnabled(true);
+        yellow.setEnabled(true);
+        white.setEnabled(true);
+        guess.setEnabled(true);
+
+        //Set Game Menu Item State
+        newGameItem.setEnabled(false);
+        endGameItem.setEnabled(true);
+
+        //Update GUI For New Game
+        updateGuessLabel(guessRow);
+        newGame.setText("Give Up?");
+
+        //Set Difficulty Level
+        setDifficulty();
+
+        //Start Game
+        start = true;
+    }
 
     //End Game
     private void endGame() {
@@ -463,8 +338,12 @@ class MastermindGUI extends JPanel {
         newGame.setText("New Game");
         newGameItem.setEnabled(true);
         endGameItem.setEnabled(false);
+        repaint();
     }
 
+    /**
+     * This method presents the "You Win" dialog and resets GUI elements in preparation for starting a new game.
+     */
     private void winGame() {
         JOptionPane.showMessageDialog(Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Congratulations, You Won!</center></body></html>", "You Win!", JOptionPane.INFORMATION_MESSAGE);
         start = false;
@@ -478,12 +357,143 @@ class MastermindGUI extends JPanel {
         newGame.setText("New Game");
         newGameItem.setEnabled(true);
         endGameItem.setEnabled(false);
+        repaint();
+    }
+
+    private void setDifficulty() {
+        // Difficulty Setting Prompt
+        Object[] options = {"Easy", "Medium", "Hard"};
+        int diffSetting = JOptionPane.showOptionDialog(Mastermind.frame, "Select Your Difficulty Level", "Difficulty Setting", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+        //Adjust Based On Difficulty Setting
+        switch (diffSetting) {
+            case JOptionPane.YES_OPTION:
+                diffLevel = 1;
+                orange.setEnabled(false);
+                green.setEnabled(false);
+                yellow.setEnabled(false);
+                white.setEnabled(false);
+                break;
+            case JOptionPane.NO_OPTION:
+                diffLevel = 2;
+                yellow.setEnabled(false);
+                white.setEnabled(false);
+                break;
+            case JOptionPane.CANCEL_OPTION:
+                diffLevel = 3;
+                break;
+            default:
+                diffLevel = 3;
+                break;
+        } //End switch
+
+        //Initialize Answer Pegs And Answer String
+        for (int i = 0; i < 4; i++) {
+            answerPeg[i] = new Peg(0, 0, generator.nextInt(2 * diffLevel));
+        } //End for
+    }
+
+    private void processGuess() {
+        Boolean validGuess = true;
+
+        //Refactored Valid Guess Logic
+        for (int i=((guessRow-1)*4); i<(guessRow*4); i++) {
+            if (guessPeg[i].color == 6) {
+                validGuess = false;
+            } //End if
+        } //End fo
+
+        //Perform Evaluation
+        if (validGuess) {
+            for (int i=0; i<4; i++) {
+                answerPeg[i].tagged = false;
+            } //End for
+            int redCount = 0;
+            int whiteCount = 0;
+
+            //Refactored Guess Evaluation Logic
+            for (int i=(guessRow*4)-4; i<(guessRow*4); i++) {
+                for (int j=0; j<4; j++) {
+                    if (guessPeg[i].color == answerPeg[i%4].color) {
+                        redCount++;
+                        if (answerPeg[i%4].tagged) {
+                            whiteCount--;
+                        } //End if
+                        answerPeg[i%4].tagged = true;
+                        break;
+                    } //End if
+                    else {
+                        if (guessPeg[i].color == answerPeg[j].color && i!=j && !answerPeg[j].tagged) {
+                            whiteCount++;
+                            answerPeg[j].tagged = true;
+                            break;
+                        } //End if
+                    } //End else
+                } //End for
+            } //End for
+
+            //Refactored Set Evaluation Pegs Logic
+            int evalCount = 0;
+            int rnd;
+            for (int i = 0; i< redCount; i++) {
+                rnd = generator.nextInt(4);
+                if (evalPeg[rnd +((guessRow-1)*4)].color == 6) {
+                    evalPeg[rnd +((guessRow-1)*4)].color = 0;
+                    evalCount++;
+                } //End if
+                else {
+                    i--;
+                } //End else
+            } //End for
+
+            for (int i = 0; i< whiteCount; i++) {
+                if (evalCount == 4) {
+                    break;
+                } //End if
+                else {
+                    rnd = generator.nextInt(4);
+                    if (evalPeg[rnd +((guessRow-1)*4)].color == 6) {
+                        evalPeg[rnd +((guessRow-1)*4)].color = 1;
+                        evalCount++;
+                    } //End if
+                    else {
+                        i--;
+                    } //End else
+                } //End else
+            } //End for
+
+            //Increment Guess Row Count
+            guessRow++;
+
+            if (redCount == 4) {
+                repaint();
+                winGame();
+            } //End if
+            else {
+                if (guessRow == 11) {
+                    repaint();
+                    endGame();
+                } //End if
+            } //End else
+
+            if (guessRow < 11 && redCount < 4) {
+                //Update Guess Number Labels
+                updateGuessLabel(guessRow);
+
+                //Refactored Set Guess Number Logic
+                guessNum.setText(guessRow + "");
+            }
+
+        } //End if
+        else {
+            JOptionPane.showOptionDialog(Mastermind.frame, "Please Select A Color For All Guess Pegs!", "Invalid Guess", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+        } //End else
     }
 
     private void updateGuessLabel(int guessRow) {
         if (guessRow == 1) {
-            for (int i=0; i<guessLabelArray.length; i++) {
-                guessLabelArray[i].setForeground(Color.BLACK);
+            for (JLabel aGuessLabelArray : guessLabelArray) {
+                aGuessLabelArray.setForeground(Color.BLACK);
             }
             guessLabelArray[guessRow-1].setForeground(Color.BLUE);
         } else {
