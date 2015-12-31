@@ -31,6 +31,8 @@
                         </manifest>
                         <manifestEntries>
                             <Permissions>sandbox</Permissions>
+                            <Application-Name>Mastermind</Application-Name>
+                            <Codebase>http://stephenjschaefer.github.io/Mastermind/</Codebase>
                         </manifestEntries>
                     </archive>
                 </configuration>

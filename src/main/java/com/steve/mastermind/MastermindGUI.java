@@ -52,7 +52,6 @@ class MastermindGUI extends JPanel {
     private final JLabel guessLabel9 = new JLabel("Guess #9");
     private final JLabel guessLabel10 = new JLabel("Guess #10");
     private final JLabel[] guessLabelArray = {guessLabel1, guessLabel2, guessLabel3, guessLabel4, guessLabel5, guessLabel6, guessLabel7, guessLabel8, guessLabel9, guessLabel10};
-    private int diffLevel = 1;
 
     /**
      * Constructor that creates a new instance of the Mastermind GUI.
@@ -133,6 +132,22 @@ class MastermindGUI extends JPanel {
         colorSelect.add(yellow);
         colorSelect.add(white);
 
+        //topBar Panel
+        JPanel topBar = new JPanel();
+        topBar.setLayout(new FlowLayout());
+        topBar.setPreferredSize(new Dimension(600, 20));
+
+        //Create Labels
+        JLabel playerGuess = new JLabel("Player Guess");
+        JLabel cpuResponse = new JLabel("Computer Response");
+
+        //Add Labels
+        topBar.add(Box.createRigidArea(new Dimension(120,10)));
+        topBar.add(playerGuess);
+        topBar.add(Box.createRigidArea(new Dimension(90,10)));
+        topBar.add(cpuResponse);
+        topBar.add(Box.createRigidArea(new Dimension(152,10)));
+
         //leftSideBar Panel
         JPanel leftSideBar = new JPanel();
         leftSideBar.setLayout(new BoxLayout(leftSideBar, BoxLayout.Y_AXIS));
@@ -187,6 +202,7 @@ class MastermindGUI extends JPanel {
 
         //Set Menu Bar and Add All Panels
         Mastermind.frame.setJMenuBar(menuBar);
+        Mastermind.frame.add(topBar, BorderLayout.NORTH);
         Mastermind.frame.add(colorSelect, BorderLayout.SOUTH);
         Mastermind.frame.add(leftSideBar, BorderLayout.WEST);
         Mastermind.frame.add(rightSideBar, BorderLayout.EAST);
@@ -409,6 +425,7 @@ class MastermindGUI extends JPanel {
         int diffSetting = JOptionPane.showOptionDialog(Mastermind.frame, "Select Your Difficulty Level", "Difficulty Setting", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 
         //Adjust Based On Difficulty Setting
+        int diffLevel = 1;
         switch (diffSetting) {
             case JOptionPane.YES_OPTION:
                 diffLevel = 1;

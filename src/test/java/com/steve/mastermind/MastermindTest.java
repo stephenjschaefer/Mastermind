@@ -20,7 +20,7 @@ public class MastermindTest {
         //Build Expected Frame
         expected = new JFrame("Mastermind");
         expected.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        expected.setSize(600, 530);
+        expected.setSize(600, 550);
         expected.setVisible(true);
         expected.setResizable(false);
 
@@ -39,7 +39,7 @@ public class MastermindTest {
         assertTrue(result.getTitle().compareTo("Mastermind")==0);
         assertTrue(result.getDefaultCloseOperation()==WindowConstants.EXIT_ON_CLOSE);
         assertTrue(result.getWidth()==600);
-        assertTrue(result.getHeight()==530);
+        assertTrue(result.getHeight()==550);
         assertTrue(result.isVisible());
         assertFalse(result.isResizable());
     }

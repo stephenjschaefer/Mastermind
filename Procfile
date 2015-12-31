@@ -1,1 +1,0 @@
-web: javaws Mastermind.jnlp
