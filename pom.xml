@@ -22,12 +22,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <mainClass>com.steve.mastermind.Mastermind</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <Permissions>sandbox</Permissions>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
@@ -44,10 +48,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <keystore>"C:\Program Files\Java\jre1.8.0_66\bin\appkeys"</keystore>
-                    <alias>SteveSchaefer</alias>
-                    <storepass>steveappkeys</storepass>
-                    <keypass>steveappkeys</keypass>
+                    <keystore>"C:\Users\Steve Schaefer\Code Signing\steveschaefercert.jks"</keystore>
+                    <alias>f38bbaba-ae75-11e5-9bc7-20cf304c1bf6</alias>
+                    <storepass>{NWuYb59OyJMH3sXMK4X2HP/lbvmsh2dv2mYQ7Zc5DMs=}</storepass>
+                    <keypass>{NWuYb59OyJMH3sXMK4X2HP/lbvmsh2dv2mYQ7Zc5DMs=}</keypass>
                 </configuration>
             </plugin>
         </plugins>

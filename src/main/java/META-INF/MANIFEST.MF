@@ -1,3 +1,7 @@
 Manifest-Version: 1.0
 Main-Class: com.steve.mastermind.Mastermind
+Application-Name: Mastermind
+Application-Description: Java Swing version of Mastermind
+Permissions: sandbox
+
 
