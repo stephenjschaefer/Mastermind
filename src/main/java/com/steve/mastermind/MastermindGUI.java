@@ -478,16 +478,16 @@ class MastermindGUI extends JPanel {
             //Refactored Guess Evaluation Logic
             for (int i=(guessRow*4)-4; i<(guessRow*4); i++) {
                 for (int j=0; j<4; j++) {
-                    if (guessPeg[i].color == answerPeg[i%4].color) {
+                    if (guessPeg[i].color == answerPeg[i-(4*(guessRow-1))].color) {
                         redCount++;
-                        if (answerPeg[i%4].tagged) {
+                        if (answerPeg[i-(4*(guessRow-1))].tagged) {
                             whiteCount--;
                         } //End if
-                        answerPeg[i%4].tagged = true;
+                        answerPeg[i-(4*(guessRow-1))].tagged = true;
                         break;
                     } //End if
                     else {
-                        if (guessPeg[i].color == answerPeg[j].color && i!=j && !answerPeg[j].tagged) {
+                        if (guessPeg[i].color == answerPeg[j].color && i%4!=j && !answerPeg[j].tagged) {
                             whiteCount++;
                             answerPeg[j].tagged = true;
                             break;
