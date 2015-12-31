@@ -1,0 +1,36 @@
+html {
+    -webkit-font-smoothing: antialiased;
+}
+
+div {
+    margin: 0 auto;
+}
+
+img {
+    text-align: center;
+}
+
+object {
+    width: inherit;
+    height: inherit;
+}
+
+#wrapper {
+    text-align: center;
+    overflow-x: hidden;
+}
+
+#header {
+    display: inline-block;
+}
+
+#content {
+    width: 100vw;
+    height: 75vh;
+}
+
+#list {
+    margin: 0 auto;
+    text-align: left;
+    width: 700px;
+}

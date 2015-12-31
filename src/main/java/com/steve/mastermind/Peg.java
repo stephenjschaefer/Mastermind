@@ -4,12 +4,21 @@
  */
 package com.steve.mastermind;
 
+/**
+ * Class representing a guess or response peg.
+ */
 @SuppressWarnings("CanBeFinal")
 class Peg {
     int x, y, color;
     Boolean tagged;
     String colorStr;
 
+    /**
+     * Constructor that creates a new instance of a peg.
+     * @param x x coordinate of the peg instance.
+     * @param y y coordinate of the peg instance.
+     * @param color Int representing the color of the peg instance.
+     */
     public Peg(int x, int y, int color) {
         this.x = x;
         this.y = y;
@@ -18,6 +27,11 @@ class Peg {
         this.tagged = false;
     } //End constructor
 
+    /**
+     * This method returns the string value of a given pegs color.
+     * @param color Int representing pegs color.
+     * @return String value of a given pegs color.
+     */
     private String getColorString(int color) {
         String colorStr = "";
         switch (color) {

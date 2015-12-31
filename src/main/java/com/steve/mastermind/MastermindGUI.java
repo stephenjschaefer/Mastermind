@@ -14,7 +14,7 @@ package com.steve.mastermind;
     import java.util.Random;
 
 /**
- * This class contains the methods to present the Mastermind GUI and process events.
+ * Class containing the methods to present the Mastermind GUI and process game events.
  */
 class MastermindGUI extends JPanel {
 
@@ -54,6 +54,9 @@ class MastermindGUI extends JPanel {
     private final JLabel[] guessLabelArray = {guessLabel1, guessLabel2, guessLabel3, guessLabel4, guessLabel5, guessLabel6, guessLabel7, guessLabel8, guessLabel9, guessLabel10};
     private int diffLevel = 1;
 
+    /**
+     * Constructor that creates a new instance of the Mastermind GUI.
+     */
     public MastermindGUI() {
 
         //Handlers
@@ -211,7 +214,9 @@ class MastermindGUI extends JPanel {
 
     } //End constructor
 
-    // Button handler to switch modes
+    /**
+     * Private class to handle all button and menu events.
+     */
     private class ButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             if(event.getSource() == blue && start) {
@@ -288,7 +293,41 @@ class MastermindGUI extends JPanel {
         } //End method
     } //End class
 
-    //New Game
+    /**
+     * Private class to handle all mouseClicked events.
+     */
+    private class MouseHandler implements MouseListener {
+
+        public void mouseExited( MouseEvent event ) {}   //
+        public void mouseEntered( MouseEvent event ) {}  // Abstract methods needed
+        public void mouseReleased( MouseEvent event ) {} //
+        public void mousePressed( MouseEvent event ) {}  //
+
+        public void mouseClicked(MouseEvent event) {
+            if (start) {
+                //Refactored Mouse Click Event Handler Logic
+                if (event.getY() > (Mastermind.frame.getHeight()-65-(40*(guessRow))) && event.getY() < (Mastermind.frame.getHeight()-65-(40*(guessRow-1)))) {
+                    if (event.getX() > 100 && event.getX() < 122) {
+                        guessPeg[(guessRow-1)+(3*(guessRow-1))].color = color;
+                    } //End if
+                    if (event.getX() > 140 && event.getX() < 162) {
+                        guessPeg[guessRow-1+1+(3*(guessRow-1))].color = color;
+                    } //End if
+                    if (event.getX() > 180 && event.getX() < 202) {
+                        guessPeg[guessRow-1+2+(3*(guessRow-1))].color = color;
+                    } //End if
+                    if (event.getX() > 220 && event.getX() < 242) {
+                        guessPeg[guessRow-1+3+(3*(guessRow-1))].color = color;
+                    } //End if
+                } //End if
+            } //End if
+            repaint();
+        } //End method
+    } // End class
+
+    /**
+     * This method resets the GUI elements in order to start a new game.
+     */
     private void newGame() {
         for (int i = 0; i < 40; i++) {
             guessPeg[i].color = 6;
@@ -324,9 +363,27 @@ class MastermindGUI extends JPanel {
         start = true;
     }
 
+    /**
+     * This method presents the "You Lose" dialog and resets GUI elements in preparation for starting a new game.
+     */
     //End Game
     private void endGame() {
         JOptionPane.showMessageDialog(Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Better Luck Next Time!</center></body></html>", "You Lose!", JOptionPane.INFORMATION_MESSAGE);
+        resetGUI();
+    }
+
+    /**
+     * This method presents the "You Win" dialog and resets GUI elements in preparation for starting a new game.
+     */
+    private void winGame() {
+        JOptionPane.showMessageDialog(Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Congratulations, You Won!</center></body></html>", "You Win!", JOptionPane.INFORMATION_MESSAGE);
+        resetGUI();
+    }
+
+    /**
+     * This method resets the state of GUI elements after a game has been completed.
+     */
+    private void resetGUI() {
         start = false;
         blue.setEnabled(false);
         red.setEnabled(false);
@@ -342,24 +399,10 @@ class MastermindGUI extends JPanel {
     }
 
     /**
-     * This method presents the "You Win" dialog and resets GUI elements in preparation for starting a new game.
+     * This method presents a dialog allowing the user to select there desired difficulty level.
+     * Based upon the selected difficulty level a new codeword is generated using the colors eligible for use.
+     * This method is used when initiating a new game.
      */
-    private void winGame() {
-        JOptionPane.showMessageDialog(Mastermind.frame, "<html><body><center>The Answer Was:<br>"+answerPeg[0].colorStr+", "+answerPeg[1].colorStr+", "+answerPeg[2].colorStr+", "+answerPeg[3].colorStr+"<br><br>Congratulations, You Won!</center></body></html>", "You Win!", JOptionPane.INFORMATION_MESSAGE);
-        start = false;
-        blue.setEnabled(false);
-        red.setEnabled(false);
-        orange.setEnabled(false);
-        green.setEnabled(false);
-        yellow.setEnabled(false);
-        white.setEnabled(false);
-        guess.setEnabled(false);
-        newGame.setText("New Game");
-        newGameItem.setEnabled(true);
-        endGameItem.setEnabled(false);
-        repaint();
-    }
-
     private void setDifficulty() {
         // Difficulty Setting Prompt
         Object[] options = {"Easy", "Medium", "Hard"};
@@ -393,6 +436,10 @@ class MastermindGUI extends JPanel {
         } //End for
     }
 
+    /**
+     * This method contains all the logic to validate and process a users guess.
+     * After validating and evaluating the guess the appropriate response is presented to the user.
+     */
     private void processGuess() {
         Boolean validGuess = true;
 
@@ -490,6 +537,10 @@ class MastermindGUI extends JPanel {
         } //End else
     }
 
+    /**
+     * This method changes the font color of the current guess label to blue as a visual aid to the user.
+     * @param guessRow Int representing the number of the current guess.
+     */
     private void updateGuessLabel(int guessRow) {
         if (guessRow == 1) {
             for (JLabel aGuessLabelArray : guessLabelArray) {
@@ -502,38 +553,11 @@ class MastermindGUI extends JPanel {
         }
     }
 
-    //Mouse Handler
-    private class MouseHandler implements MouseListener {
-
-        public void mouseExited( MouseEvent event ) {}   //
-        public void mouseEntered( MouseEvent event ) {}  // Abstract methods needed
-        public void mouseReleased( MouseEvent event ) {} //
-        public void mousePressed( MouseEvent event ) {}  //
-
-        public void mouseClicked(MouseEvent event) {
-            if (start) {
-                //Refactored Mouse Click Event Handler Logic
-                if (event.getY() > (Mastermind.frame.getHeight()-65-(40*(guessRow))) && event.getY() < (Mastermind.frame.getHeight()-65-(40*(guessRow-1)))) {
-                    if (event.getX() > 100 && event.getX() < 122) {
-                        guessPeg[(guessRow-1)+(3*(guessRow-1))].color = color;
-                    } //End if
-                    if (event.getX() > 140 && event.getX() < 162) {
-                        guessPeg[guessRow-1+1+(3*(guessRow-1))].color = color;
-                    } //End if
-                    if (event.getX() > 180 && event.getX() < 202) {
-                        guessPeg[guessRow-1+2+(3*(guessRow-1))].color = color;
-                    } //End if
-                    if (event.getX() > 220 && event.getX() < 242) {
-                        guessPeg[guessRow-1+3+(3*(guessRow-1))].color = color;
-                    } //End if
-                } //End if
-            } //End if
-            repaint();
-        } //End method
-    } // End class
-
-    //Drawing Method
-    public void paintComponent(Graphics g) {
+    /**
+     * This method paints the game board and peg positions on the screen.
+     * @param g Graphics context.
+     */
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
