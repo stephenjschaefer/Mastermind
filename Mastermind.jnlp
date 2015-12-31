@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="file://localhost/C:/Users/Steve Schaefer/Projects/Mastermind" href="Mastermind.jnlp">
+
+    <information>
+        <title>Mastermind</title>
+        <vendor>Steve Schaefer</vendor>
+        <homepage href="http://localhost:5000/index.html"/>
+        <description>Java Swing Mastermind</description>
+    </information>
+
+    <security>
+        <sandbox/>
+    </security>
+
+    <resources>
+        <j2se version="1.7+" />
+        <jar href="target/Mastermind-1.0-SNAPSHOT.jar"/>
+    </resources>
+
+    <application-desc main-class="com.steve.mastermind.Mastermind"/>
+</jnlp>
