@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="file://localhost/C:/Users/Steve Schaefer/Projects/Mastermind" href="Mastermind.jnlp">
+<jnlp spec="1.0+" codebase="http://stephenjschaefer.github.io/Mastermind/" href="Mastermind.jnlp">
 
     <information>
         <title>Mastermind</title>
         <vendor>Steve Schaefer</vendor>
-        <homepage href="http://localhost:5000/index.html"/>
         <description>Java Swing Mastermind</description>
     </information>
 
@@ -13,9 +12,15 @@
     </security>
 
     <resources>
-        <j2se version="1.7+" />
-        <jar href="target/Mastermind-1.0-SNAPSHOT.jar"/>
+        <java version="1.8+" href="http://java.sun.com/products/autodl/j2se"/>
+        <jar href="target/Mastermind-1.0-SNAPSHOT.jar" main="true"/>
     </resources>
 
-    <application-desc main-class="com.steve.mastermind.Mastermind"/>
+    <application-desc
+		name="Mastermind"
+		main-class="com.steve.mastermind.Mastermind">
+	</application-desc>
+	
+	<update check="background"/>
+	
 </jnlp>
