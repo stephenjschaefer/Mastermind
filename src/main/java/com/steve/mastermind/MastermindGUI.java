@@ -487,7 +487,7 @@ class MastermindGUI extends JPanel {
                         break;
                     } //End if
                     else {
-                        if (guessPeg[i].color == answerPeg[j].color && i%4!=j && !answerPeg[j].tagged) {
+                        if (guessPeg[i].color == answerPeg[j].color && i-(4*(guessRow-1))!=j && !answerPeg[j].tagged) {
                             whiteCount++;
                             answerPeg[j].tagged = true;
                             break;

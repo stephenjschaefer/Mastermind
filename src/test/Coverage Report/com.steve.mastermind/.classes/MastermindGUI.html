@@ -1,0 +1,777 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MastermindGUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.steve.mastermind</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MastermindGUI (com.steve.mastermind)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MastermindGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (2/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.6%
+  </span>
+  <span class="absValue">
+    (182/ 316)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MastermindGUI$ButtonHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.4%
+  </span>
+  <span class="absValue">
+    (1/ 42)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MastermindGUI$MouseHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.9%
+  </span>
+  <span class="absValue">
+    (1/ 17)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (4/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    49.1%
+  </span>
+  <span class="absValue">
+    (184/ 375)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/**
+<i>2</i>&nbsp; * Project: Mastermind
+<i>3</i>&nbsp; * Created by Steve Schaefer on 12/22/2015.
+<i>4</i>&nbsp; */
+<i>5</i>&nbsp;package com.steve.mastermind;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;    import javax.swing.*;
+<i>8</i>&nbsp;    import java.awt.*;
+<i>9</i>&nbsp;    import java.awt.event.ActionEvent;
+<i>10</i>&nbsp;    import java.awt.event.ActionListener;
+<i>11</i>&nbsp;    import java.awt.event.MouseEvent;
+<i>12</i>&nbsp;    import java.awt.event.MouseListener;
+<i>13</i>&nbsp;    import java.awt.geom.Line2D;
+<i>14</i>&nbsp;    import java.util.Random;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * Class containing the methods to present the Mastermind GUI and process game events.
+<i>18</i>&nbsp; */
+<b class="nc"><i>19</i>&nbsp;class MastermindGUI extends JPanel {</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    // Declarations
+<b class="fc"><i>22</i>&nbsp;    private final JButton blue = new JButton(&quot;Blue&quot;);</b>
+<b class="fc"><i>23</i>&nbsp;    private final JButton red = new JButton(&quot;Red&quot;);</b>
+<b class="fc"><i>24</i>&nbsp;    private final JButton orange = new JButton(&quot;Orange&quot;);</b>
+<b class="fc"><i>25</i>&nbsp;    private final JButton green = new JButton(&quot;Green&quot;);</b>
+<b class="fc"><i>26</i>&nbsp;    private final JButton yellow = new JButton(&quot;Yellow&quot;);</b>
+<b class="fc"><i>27</i>&nbsp;    private final JButton white = new JButton(&quot;White&quot;);</b>
+<b class="fc"><i>28</i>&nbsp;    private final JButton guess = new JButton(&quot;Make Guess&quot;);</b>
+<b class="fc"><i>29</i>&nbsp;    private final JButton newGame = new JButton(&quot;New Game&quot;);</b>
+<b class="fc"><i>30</i>&nbsp;    private final JMenuItem exitItem = new JMenuItem(&quot;Exit&quot;);</b>
+<b class="fc"><i>31</i>&nbsp;    private final JMenuItem newGameItem = new JMenuItem(&quot;New Game&quot;);</b>
+<b class="fc"><i>32</i>&nbsp;    private final JMenuItem endGameItem = new JMenuItem(&quot;Give Up&quot;);</b>
+<b class="fc"><i>33</i>&nbsp;    private final JMenuItem rulesItem = new JMenuItem(&quot;Rules&quot;);</b>
+<b class="fc"><i>34</i>&nbsp;    private final JMenuItem aboutItem = new JMenuItem(&quot;About&quot;);</b>
+<b class="fc"><i>35</i>&nbsp;    private int guessRow = 1;</b>
+<b class="fc"><i>36</i>&nbsp;    private final JLabel guessNum = new JLabel(&quot;0&quot;);</b>
+<b class="fc"><i>37</i>&nbsp;    private final JLabel selectedColor = new JLabel(&quot;----------&quot;);</b>
+<b class="fc"><i>38</i>&nbsp;    private int color = 6;</b>
+<b class="fc"><i>39</i>&nbsp;    private final Peg[] guessPeg = new Peg[40];</b>
+<b class="fc"><i>40</i>&nbsp;    private final Peg[] evalPeg = new Peg[40];</b>
+<b class="fc"><i>41</i>&nbsp;    private final Peg[] answerPeg = new Peg[4];</b>
+<b class="fc"><i>42</i>&nbsp;    private final Random generator = new Random();</b>
+<b class="fc"><i>43</i>&nbsp;    private Boolean start = false;</b>
+<b class="fc"><i>44</i>&nbsp;    private final JLabel guessLabel1 = new JLabel(&quot;Guess #1&quot;);</b>
+<b class="fc"><i>45</i>&nbsp;    private final JLabel guessLabel2 = new JLabel(&quot;Guess #2&quot;);</b>
+<b class="fc"><i>46</i>&nbsp;    private final JLabel guessLabel3 = new JLabel(&quot;Guess #3&quot;);</b>
+<b class="fc"><i>47</i>&nbsp;    private final JLabel guessLabel4 = new JLabel(&quot;Guess #4&quot;);</b>
+<b class="fc"><i>48</i>&nbsp;    private final JLabel guessLabel5 = new JLabel(&quot;Guess #5&quot;);</b>
+<b class="fc"><i>49</i>&nbsp;    private final JLabel guessLabel6 = new JLabel(&quot;Guess #6&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;    private final JLabel guessLabel7 = new JLabel(&quot;Guess #7&quot;);</b>
+<b class="fc"><i>51</i>&nbsp;    private final JLabel guessLabel8 = new JLabel(&quot;Guess #8&quot;);</b>
+<b class="fc"><i>52</i>&nbsp;    private final JLabel guessLabel9 = new JLabel(&quot;Guess #9&quot;);</b>
+<b class="fc"><i>53</i>&nbsp;    private final JLabel guessLabel10 = new JLabel(&quot;Guess #10&quot;);</b>
+<b class="fc"><i>54</i>&nbsp;    private final JLabel[] guessLabelArray = {guessLabel1, guessLabel2, guessLabel3, guessLabel4, guessLabel5, guessLabel6, guessLabel7, guessLabel8, guessLabel9, guessLabel10};</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Constructor that creates a new instance of the Mastermind GUI.
+<i>58</i>&nbsp;     */
+<b class="fc"><i>59</i>&nbsp;    public MastermindGUI() {</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;        //Handlers
+<b class="fc"><i>62</i>&nbsp;        ButtonHandler buttonHandle = new ButtonHandler();</b>
+<b class="fc"><i>63</i>&nbsp;        Mastermind.frame.addMouseListener(new MouseHandler());</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;        //Add button handler
+<b class="fc"><i>66</i>&nbsp;        blue.addActionListener(buttonHandle);</b>
+<b class="fc"><i>67</i>&nbsp;        red.addActionListener(buttonHandle);</b>
+<b class="fc"><i>68</i>&nbsp;        orange.addActionListener(buttonHandle);</b>
+<b class="fc"><i>69</i>&nbsp;        green.addActionListener(buttonHandle);</b>
+<b class="fc"><i>70</i>&nbsp;        yellow.addActionListener(buttonHandle);</b>
+<b class="fc"><i>71</i>&nbsp;        white.addActionListener(buttonHandle);</b>
+<b class="fc"><i>72</i>&nbsp;        newGame.addActionListener(buttonHandle);</b>
+<b class="fc"><i>73</i>&nbsp;        guess.addActionListener(buttonHandle);</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;        //Disable Buttons Initially
+<b class="fc"><i>76</i>&nbsp;        blue.setEnabled(false);</b>
+<b class="fc"><i>77</i>&nbsp;        red.setEnabled(false);</b>
+<b class="fc"><i>78</i>&nbsp;        orange.setEnabled(false);</b>
+<b class="fc"><i>79</i>&nbsp;        green.setEnabled(false);</b>
+<b class="fc"><i>80</i>&nbsp;        yellow.setEnabled(false);</b>
+<b class="fc"><i>81</i>&nbsp;        white.setEnabled(false);</b>
+<b class="fc"><i>82</i>&nbsp;        guess.setEnabled(false);</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;        //Menu Bar
+<b class="fc"><i>85</i>&nbsp;        JMenuBar menuBar = new JMenuBar();</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;        //Menus
+<b class="fc"><i>88</i>&nbsp;        JMenu fileMenu = new JMenu(&quot;File&quot;);</b>
+<b class="fc"><i>89</i>&nbsp;        JMenu gameMenu = new JMenu(&quot;Game&quot;);</b>
+<b class="fc"><i>90</i>&nbsp;        JMenu helpMenu = new JMenu(&quot;Help&quot;);</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;        //Add Menu Items To Menus
+<b class="fc"><i>93</i>&nbsp;        fileMenu.add(exitItem);</b>
+<b class="fc"><i>94</i>&nbsp;        gameMenu.add(newGameItem);</b>
+<b class="fc"><i>95</i>&nbsp;        gameMenu.add(endGameItem);</b>
+<b class="fc"><i>96</i>&nbsp;        gameMenu.addSeparator();</b>
+<b class="fc"><i>97</i>&nbsp;        gameMenu.add(rulesItem);</b>
+<b class="fc"><i>98</i>&nbsp;        helpMenu.add(aboutItem);</b>
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;        //Add Menus to Menu Bar
+<b class="fc"><i>101</i>&nbsp;        menuBar.add(fileMenu);</b>
+<b class="fc"><i>102</i>&nbsp;        menuBar.add(gameMenu);</b>
+<b class="fc"><i>103</i>&nbsp;        menuBar.add(helpMenu);</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;        //Set Menu Item Hotkeys
+<b class="fc"><i>106</i>&nbsp;        exitItem.setAccelerator(KeyStroke.getKeyStroke(&#39;Q&#39;, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));</b>
+<b class="fc"><i>107</i>&nbsp;        newGameItem.setAccelerator(KeyStroke.getKeyStroke(&#39;N&#39;, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));</b>
+<b class="fc"><i>108</i>&nbsp;        endGameItem.setAccelerator(KeyStroke.getKeyStroke(&#39;G&#39;, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));</b>
+<b class="fc"><i>109</i>&nbsp;        rulesItem.setAccelerator(KeyStroke.getKeyStroke(&#39;R&#39;, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));</b>
+<b class="fc"><i>110</i>&nbsp;        aboutItem.setAccelerator(KeyStroke.getKeyStroke(&#39;A&#39;, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;        //Add Menu Item Action Listener
+<b class="fc"><i>113</i>&nbsp;        exitItem.addActionListener(buttonHandle);</b>
+<b class="fc"><i>114</i>&nbsp;        newGameItem.addActionListener(buttonHandle);</b>
+<b class="fc"><i>115</i>&nbsp;        endGameItem.addActionListener(buttonHandle);</b>
+<b class="fc"><i>116</i>&nbsp;        rulesItem.addActionListener(buttonHandle);</b>
+<b class="fc"><i>117</i>&nbsp;        aboutItem.addActionListener(buttonHandle);</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;        //Set Game Menu Item Initial State
+<b class="fc"><i>120</i>&nbsp;        newGameItem.setEnabled(true);</b>
+<b class="fc"><i>121</i>&nbsp;        endGameItem.setEnabled(false);</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;        //ColorSelect Panel
+<b class="fc"><i>124</i>&nbsp;        JPanel colorSelect = new JPanel();</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;        //Add buttons
+<b class="fc"><i>127</i>&nbsp;        colorSelect.setLayout(new FlowLayout());</b>
+<b class="fc"><i>128</i>&nbsp;        colorSelect.add(blue);</b>
+<b class="fc"><i>129</i>&nbsp;        colorSelect.add(red);</b>
+<b class="fc"><i>130</i>&nbsp;        colorSelect.add(orange);</b>
+<b class="fc"><i>131</i>&nbsp;        colorSelect.add(green);</b>
+<b class="fc"><i>132</i>&nbsp;        colorSelect.add(yellow);</b>
+<b class="fc"><i>133</i>&nbsp;        colorSelect.add(white);</b>
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;        //topBar Panel
+<b class="fc"><i>136</i>&nbsp;        JPanel topBar = new JPanel();</b>
+<b class="fc"><i>137</i>&nbsp;        topBar.setLayout(new FlowLayout());</b>
+<b class="fc"><i>138</i>&nbsp;        topBar.setPreferredSize(new Dimension(600, 20));</b>
+<i>139</i>&nbsp;
+<i>140</i>&nbsp;        //Create Labels
+<b class="fc"><i>141</i>&nbsp;        JLabel playerGuess = new JLabel(&quot;Player Guess&quot;);</b>
+<b class="fc"><i>142</i>&nbsp;        JLabel cpuResponse = new JLabel(&quot;Computer Response&quot;);</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;        //Add Labels
+<b class="fc"><i>145</i>&nbsp;        topBar.add(Box.createRigidArea(new Dimension(120,10)));</b>
+<b class="fc"><i>146</i>&nbsp;        topBar.add(playerGuess);</b>
+<b class="fc"><i>147</i>&nbsp;        topBar.add(Box.createRigidArea(new Dimension(90,10)));</b>
+<b class="fc"><i>148</i>&nbsp;        topBar.add(cpuResponse);</b>
+<b class="fc"><i>149</i>&nbsp;        topBar.add(Box.createRigidArea(new Dimension(152,10)));</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;        //leftSideBar Panel
+<b class="fc"><i>152</i>&nbsp;        JPanel leftSideBar = new JPanel();</b>
+<b class="fc"><i>153</i>&nbsp;        leftSideBar.setLayout(new BoxLayout(leftSideBar, BoxLayout.Y_AXIS));</b>
+<i>154</i>&nbsp;
+<i>155</i>&nbsp;        //Add elements
+<b class="fc"><i>156</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,30)));</b>
+<b class="fc"><i>157</i>&nbsp;        leftSideBar.add(guessLabel10);</b>
+<b class="fc"><i>158</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));</b>
+<b class="fc"><i>159</i>&nbsp;        leftSideBar.add(guessLabel9);</b>
+<b class="fc"><i>160</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));</b>
+<b class="fc"><i>161</i>&nbsp;        leftSideBar.add(guessLabel8);</b>
+<b class="fc"><i>162</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));</b>
+<b class="fc"><i>163</i>&nbsp;        leftSideBar.add(guessLabel7);</b>
+<b class="fc"><i>164</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));</b>
+<b class="fc"><i>165</i>&nbsp;        leftSideBar.add(guessLabel6);</b>
+<b class="fc"><i>166</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));</b>
+<b class="fc"><i>167</i>&nbsp;        leftSideBar.add(guessLabel5);</b>
+<b class="fc"><i>168</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));</b>
+<b class="fc"><i>169</i>&nbsp;        leftSideBar.add(guessLabel4);</b>
+<b class="fc"><i>170</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));</b>
+<b class="fc"><i>171</i>&nbsp;        leftSideBar.add(guessLabel3);</b>
+<b class="fc"><i>172</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,24)));</b>
+<b class="fc"><i>173</i>&nbsp;        leftSideBar.add(guessLabel2);</b>
+<b class="fc"><i>174</i>&nbsp;        leftSideBar.add(Box.createRigidArea(new Dimension(30,25)));</b>
+<b class="fc"><i>175</i>&nbsp;        leftSideBar.add(guessLabel1);</b>
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;        //rightSideBar Panel
+<b class="fc"><i>178</i>&nbsp;        JPanel rightSideBar = new JPanel();</b>
+<b class="fc"><i>179</i>&nbsp;        rightSideBar.setLayout(new BoxLayout(rightSideBar, BoxLayout.Y_AXIS));</b>
+<i>180</i>&nbsp;
+<i>181</i>&nbsp;        //Add elements
+<b class="fc"><i>182</i>&nbsp;        rightSideBar.add(Box.createRigidArea(new Dimension(132,18)));</b>
+<b class="fc"><i>183</i>&nbsp;        rightSideBar.add(newGame);</b>
+<b class="fc"><i>184</i>&nbsp;        rightSideBar.add(Box.createRigidArea(new Dimension(132,125)));</b>
+<b class="fc"><i>185</i>&nbsp;        JLabel currentGuess = new JLabel(&quot;Current Guess:&quot;);</b>
+<b class="fc"><i>186</i>&nbsp;        rightSideBar.add(currentGuess);</b>
+<b class="fc"><i>187</i>&nbsp;        rightSideBar.add(guessNum);</b>
+<b class="fc"><i>188</i>&nbsp;        rightSideBar.add(Box.createRigidArea(new Dimension(132,20)));</b>
+<b class="fc"><i>189</i>&nbsp;        JLabel currentColor = new JLabel(&quot;Current Color:&quot;);</b>
+<b class="fc"><i>190</i>&nbsp;        rightSideBar.add(currentColor);</b>
+<b class="fc"><i>191</i>&nbsp;        rightSideBar.add(selectedColor);</b>
+<b class="fc"><i>192</i>&nbsp;        rightSideBar.add(Box.createRigidArea(new Dimension(132,140)));</b>
+<b class="fc"><i>193</i>&nbsp;        rightSideBar.add(guess);</b>
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;        //Set element attributes
+<b class="fc"><i>196</i>&nbsp;        newGame.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+<b class="fc"><i>197</i>&nbsp;        guess.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+<b class="fc"><i>198</i>&nbsp;        currentGuess.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+<b class="fc"><i>199</i>&nbsp;        guessNum.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+<b class="fc"><i>200</i>&nbsp;        currentColor.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+<b class="fc"><i>201</i>&nbsp;        selectedColor.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;        //Set Menu Bar and Add All Panels
+<b class="fc"><i>204</i>&nbsp;        Mastermind.frame.setJMenuBar(menuBar);</b>
+<b class="fc"><i>205</i>&nbsp;        Mastermind.frame.add(topBar, BorderLayout.NORTH);</b>
+<b class="fc"><i>206</i>&nbsp;        Mastermind.frame.add(colorSelect, BorderLayout.SOUTH);</b>
+<b class="fc"><i>207</i>&nbsp;        Mastermind.frame.add(leftSideBar, BorderLayout.WEST);</b>
+<b class="fc"><i>208</i>&nbsp;        Mastermind.frame.add(rightSideBar, BorderLayout.EAST);</b>
+<b class="fc"><i>209</i>&nbsp;        Mastermind.frame.add(this, BorderLayout.CENTER);</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;        //Initialize Guess Peg Array
+<b class="fc"><i>212</i>&nbsp;        int pegCount = 0;</b>
+<b class="fc"><i>213</i>&nbsp;        int[] guessY = {390, 350, 310, 270, 230, 190, 150, 110, 70, 30};</b>
+<b class="fc"><i>214</i>&nbsp;        for (int aGuessY : guessY) {</b>
+<b class="fc"><i>215</i>&nbsp;            int[] guessX = {20, 60, 100, 140};</b>
+<b class="fc"><i>216</i>&nbsp;            for (int aGuessX : guessX) {</b>
+<b class="fc"><i>217</i>&nbsp;                guessPeg[pegCount++] = new Peg(aGuessX, aGuessY, 6);</b>
+<i>218</i>&nbsp;            } //End for
+<i>219</i>&nbsp;        } //End for
+<i>220</i>&nbsp;
+<i>221</i>&nbsp;        //Initialize Eval Peg Array
+<b class="fc"><i>222</i>&nbsp;        pegCount = 0;</b>
+<b class="fc"><i>223</i>&nbsp;        int[] evalY = {390, 350, 310, 270, 230, 190, 150, 110, 70, 30};</b>
+<b class="fc"><i>224</i>&nbsp;        for (int anEvalY : evalY) {</b>
+<b class="fc"><i>225</i>&nbsp;            int[] evalX = {230, 270, 310, 350};</b>
+<b class="fc"><i>226</i>&nbsp;            for (int anEvalX : evalX) {</b>
+<b class="fc"><i>227</i>&nbsp;                evalPeg[pegCount++] = new Peg(anEvalX, anEvalY, 6);</b>
+<i>228</i>&nbsp;            } //End for
+<i>229</i>&nbsp;        } //End for
+<i>230</i>&nbsp;
+<b class="fc"><i>231</i>&nbsp;    } //End constructor</b>
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    /**
+<i>234</i>&nbsp;     * Private class to handle all button and menu events.
+<i>235</i>&nbsp;     */
+<b class="fc"><i>236</i>&nbsp;    private class ButtonHandler implements ActionListener {</b>
+<i>237</i>&nbsp;        public void actionPerformed(ActionEvent event) {
+<b class="nc"><i>238</i>&nbsp;            if(event.getSource() == blue &amp;&amp; start) {</b>
+<b class="nc"><i>239</i>&nbsp;                selectedColor.setText(&quot;Blue&quot;);</b>
+<b class="nc"><i>240</i>&nbsp;                selectedColor.setForeground(Color.BLUE);</b>
+<b class="nc"><i>241</i>&nbsp;                color = 0;</b>
+<i>242</i>&nbsp;            } //End if
+<b class="nc"><i>243</i>&nbsp;            if(event.getSource() == red &amp;&amp; start) {</b>
+<b class="nc"><i>244</i>&nbsp;                selectedColor.setText(&quot;Red&quot;);</b>
+<b class="nc"><i>245</i>&nbsp;                selectedColor.setForeground(Color.RED);</b>
+<b class="nc"><i>246</i>&nbsp;                color = 1;</b>
+<i>247</i>&nbsp;            } //End if
+<b class="nc"><i>248</i>&nbsp;            if(event.getSource() == orange &amp;&amp; start) {</b>
+<b class="nc"><i>249</i>&nbsp;                selectedColor.setText(&quot;Orange&quot;);</b>
+<b class="nc"><i>250</i>&nbsp;                selectedColor.setForeground(Color.ORANGE);</b>
+<b class="nc"><i>251</i>&nbsp;                color = 2;</b>
+<i>252</i>&nbsp;            } //End if
+<b class="nc"><i>253</i>&nbsp;            if(event.getSource() == green &amp;&amp; start) {</b>
+<b class="nc"><i>254</i>&nbsp;                selectedColor.setText(&quot;Green&quot;);</b>
+<b class="nc"><i>255</i>&nbsp;                selectedColor.setForeground(Color.GREEN);</b>
+<b class="nc"><i>256</i>&nbsp;                color = 3;</b>
+<i>257</i>&nbsp;            } //End if
+<b class="nc"><i>258</i>&nbsp;            if(event.getSource() == yellow &amp;&amp; start) {</b>
+<b class="nc"><i>259</i>&nbsp;                selectedColor.setText(&quot;Yellow&quot;);</b>
+<b class="nc"><i>260</i>&nbsp;                selectedColor.setForeground(Color.YELLOW);</b>
+<b class="nc"><i>261</i>&nbsp;                color = 4;</b>
+<i>262</i>&nbsp;            } //End if
+<b class="nc"><i>263</i>&nbsp;            if(event.getSource() == white &amp;&amp; start) {</b>
+<b class="nc"><i>264</i>&nbsp;                selectedColor.setText(&quot;White&quot;);</b>
+<b class="nc"><i>265</i>&nbsp;                selectedColor.setForeground(Color.WHITE);</b>
+<b class="nc"><i>266</i>&nbsp;                color = 5;</b>
+<i>267</i>&nbsp;            } //End if
+<b class="nc"><i>268</i>&nbsp;            if(event.getSource() == newGame || event.getSource() == newGameItem) {</b>
+<b class="nc"><i>269</i>&nbsp;                if (newGame.getText().equals(&quot;New Game&quot;)) {</b>
+<b class="nc"><i>270</i>&nbsp;                    newGame();</b>
+<i>271</i>&nbsp;                } //End if
+<i>272</i>&nbsp;                else {
+<b class="nc"><i>273</i>&nbsp;                    if (newGame.getText().equals(&quot;Give Up?&quot;)) {</b>
+<b class="nc"><i>274</i>&nbsp;                        endGame();</b>
+<i>275</i>&nbsp;                    } //End if
+<i>276</i>&nbsp;                } //End else
+<i>277</i>&nbsp;            }
+<b class="nc"><i>278</i>&nbsp;            if (event.getSource() == endGameItem) {</b>
+<b class="nc"><i>279</i>&nbsp;                endGame();</b>
+<i>280</i>&nbsp;            } //End if
+<b class="nc"><i>281</i>&nbsp;            if (event.getSource() == exitItem) {</b>
+<b class="nc"><i>282</i>&nbsp;                System.exit(0);</b>
+<i>283</i>&nbsp;            } //End if
+<b class="nc"><i>284</i>&nbsp;            if (event.getSource() == rulesItem) {</b>
+<b class="nc"><i>285</i>&nbsp;                JOptionPane.showOptionDialog(Mastermind.frame,  &quot;Flow of Gameplay:\n&quot; +</b>
+<i>286</i>&nbsp;                                                                &quot;  Click \&quot;New Game\&quot; to start a new game.\n&quot; +
+<i>287</i>&nbsp;                                                                &quot;  Select your difficulty level.\n&quot; +
+<i>288</i>&nbsp;                                                                &quot;  Select a guess color from the available colors.\n&quot; +
+<i>289</i>&nbsp;                                                                &quot;  Place selected color in desired empty location.\n&quot; +
+<i>290</i>&nbsp;                                                                &quot;  When ready click \&quot;Make Guess\&quot;\n&quot; +
+<i>291</i>&nbsp;                                                                &quot;  Use the Master&#39;s response to make your next guess.\n\n&quot; +
+<i>292</i>&nbsp;                                                                &quot;Evaluation of Your Guess:\n&quot; +
+<i>293</i>&nbsp;                                                                &quot;  Red: correct color and location.\n&quot; +
+<i>294</i>&nbsp;                                                                &quot;  White: correct color but incorrect location.\n\n&quot; +
+<i>295</i>&nbsp;                                                                &quot;The Master&#39;s response peg placement is random!&quot;,
+<i>296</i>&nbsp;                                                                &quot;Rules&quot;, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+<i>297</i>&nbsp;
+<i>298</i>&nbsp;            } //End if
+<b class="nc"><i>299</i>&nbsp;            if (event.getSource() == aboutItem) {</b>
+<b class="nc"><i>300</i>&nbsp;                JOptionPane.showOptionDialog(Mastermind.frame, &quot;             Mastermind\n&quot; +</b>
+<i>301</i>&nbsp;                                                               &quot;          Version 1.0.0.0&quot;,
+<i>302</i>&nbsp;                                                               &quot;About&quot;, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+<i>303</i>&nbsp;            } //End if
+<i>304</i>&nbsp;
+<b class="nc"><i>305</i>&nbsp;            if(event.getSource() == guess &amp;&amp; start) {</b>
+<b class="nc"><i>306</i>&nbsp;                processGuess();</b>
+<i>307</i>&nbsp;            } //End if
+<b class="nc"><i>308</i>&nbsp;            repaint();</b>
+<b class="nc"><i>309</i>&nbsp;        } //End method</b>
+<i>310</i>&nbsp;    } //End class
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    /**
+<i>313</i>&nbsp;     * Private class to handle all mouseClicked events.
+<i>314</i>&nbsp;     */
+<b class="fc"><i>315</i>&nbsp;    private class MouseHandler implements MouseListener {</b>
+<i>316</i>&nbsp;
+<b class="nc"><i>317</i>&nbsp;        public void mouseExited( MouseEvent event ) {}   //</b>
+<b class="nc"><i>318</i>&nbsp;        public void mouseEntered( MouseEvent event ) {}  // Abstract methods needed</b>
+<b class="nc"><i>319</i>&nbsp;        public void mouseReleased( MouseEvent event ) {} //</b>
+<b class="nc"><i>320</i>&nbsp;        public void mousePressed( MouseEvent event ) {}  //</b>
+<i>321</i>&nbsp;
+<i>322</i>&nbsp;        public void mouseClicked(MouseEvent event) {
+<b class="nc"><i>323</i>&nbsp;            if (start) {</b>
+<i>324</i>&nbsp;                //Refactored Mouse Click Event Handler Logic
+<b class="nc"><i>325</i>&nbsp;                if (event.getY() &gt; (Mastermind.frame.getHeight()-65-(40*(guessRow))) &amp;&amp; event.getY() &lt; (Mastermind.frame.getHeight()-65-(40*(guessRow-1)))) {</b>
+<b class="nc"><i>326</i>&nbsp;                    if (event.getX() &gt; 100 &amp;&amp; event.getX() &lt; 122) {</b>
+<b class="nc"><i>327</i>&nbsp;                        guessPeg[(guessRow-1)+(3*(guessRow-1))].color = color;</b>
+<i>328</i>&nbsp;                    } //End if
+<b class="nc"><i>329</i>&nbsp;                    if (event.getX() &gt; 140 &amp;&amp; event.getX() &lt; 162) {</b>
+<b class="nc"><i>330</i>&nbsp;                        guessPeg[guessRow-1+1+(3*(guessRow-1))].color = color;</b>
+<i>331</i>&nbsp;                    } //End if
+<b class="nc"><i>332</i>&nbsp;                    if (event.getX() &gt; 180 &amp;&amp; event.getX() &lt; 202) {</b>
+<b class="nc"><i>333</i>&nbsp;                        guessPeg[guessRow-1+2+(3*(guessRow-1))].color = color;</b>
+<i>334</i>&nbsp;                    } //End if
+<b class="nc"><i>335</i>&nbsp;                    if (event.getX() &gt; 220 &amp;&amp; event.getX() &lt; 242) {</b>
+<b class="nc"><i>336</i>&nbsp;                        guessPeg[guessRow-1+3+(3*(guessRow-1))].color = color;</b>
+<i>337</i>&nbsp;                    } //End if
+<i>338</i>&nbsp;                } //End if
+<i>339</i>&nbsp;            } //End if
+<b class="nc"><i>340</i>&nbsp;            repaint();</b>
+<b class="nc"><i>341</i>&nbsp;        } //End method</b>
+<i>342</i>&nbsp;    } // End class
+<i>343</i>&nbsp;
+<i>344</i>&nbsp;    /**
+<i>345</i>&nbsp;     * This method resets the GUI elements in order to start a new game.
+<i>346</i>&nbsp;     */
+<i>347</i>&nbsp;    private void newGame() {
+<b class="nc"><i>348</i>&nbsp;        for (int i = 0; i &lt; 40; i++) {</b>
+<b class="nc"><i>349</i>&nbsp;            guessPeg[i].color = 6;</b>
+<b class="nc"><i>350</i>&nbsp;            evalPeg[i].color = 6;</b>
+<i>351</i>&nbsp;        } //End for
+<b class="nc"><i>352</i>&nbsp;        guessRow = 1;</b>
+<b class="nc"><i>353</i>&nbsp;        guessNum.setText(&quot;1&quot;);</b>
+<b class="nc"><i>354</i>&nbsp;        color = 6;</b>
+<b class="nc"><i>355</i>&nbsp;        selectedColor.setText(&quot;----------&quot;);</b>
+<b class="nc"><i>356</i>&nbsp;        selectedColor.setForeground(Color.BLACK);</b>
+<i>357</i>&nbsp;
+<i>358</i>&nbsp;        //Reset Buttons
+<b class="nc"><i>359</i>&nbsp;        blue.setEnabled(true);</b>
+<b class="nc"><i>360</i>&nbsp;        red.setEnabled(true);</b>
+<b class="nc"><i>361</i>&nbsp;        orange.setEnabled(true);</b>
+<b class="nc"><i>362</i>&nbsp;        green.setEnabled(true);</b>
+<b class="nc"><i>363</i>&nbsp;        yellow.setEnabled(true);</b>
+<b class="nc"><i>364</i>&nbsp;        white.setEnabled(true);</b>
+<b class="nc"><i>365</i>&nbsp;        guess.setEnabled(true);</b>
+<i>366</i>&nbsp;
+<i>367</i>&nbsp;        //Set Game Menu Item State
+<b class="nc"><i>368</i>&nbsp;        newGameItem.setEnabled(false);</b>
+<b class="nc"><i>369</i>&nbsp;        endGameItem.setEnabled(true);</b>
+<i>370</i>&nbsp;
+<i>371</i>&nbsp;        //Update GUI For New Game
+<b class="nc"><i>372</i>&nbsp;        updateGuessLabel(guessRow);</b>
+<b class="nc"><i>373</i>&nbsp;        newGame.setText(&quot;Give Up?&quot;);</b>
+<i>374</i>&nbsp;
+<i>375</i>&nbsp;        //Set Difficulty Level
+<b class="nc"><i>376</i>&nbsp;        setDifficulty();</b>
+<i>377</i>&nbsp;
+<i>378</i>&nbsp;        //Start Game
+<b class="nc"><i>379</i>&nbsp;        start = true;</b>
+<b class="nc"><i>380</i>&nbsp;    }</b>
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    /**
+<i>383</i>&nbsp;     * This method presents the &quot;You Lose&quot; dialog and resets GUI elements in preparation for starting a new game.
+<i>384</i>&nbsp;     */
+<i>385</i>&nbsp;    //End Game
+<i>386</i>&nbsp;    private void endGame() {
+<b class="nc"><i>387</i>&nbsp;        JOptionPane.showMessageDialog(Mastermind.frame, &quot;&lt;html&gt;&lt;body&gt;&lt;center&gt;The Answer Was:&lt;br&gt;&quot;+answerPeg[0].colorStr+&quot;, &quot;+answerPeg[1].colorStr+&quot;, &quot;+answerPeg[2].colorStr+&quot;, &quot;+answerPeg[3].colorStr+&quot;&lt;br&gt;&lt;br&gt;Better Luck Next Time!&lt;/center&gt;&lt;/body&gt;&lt;/html&gt;&quot;, &quot;You Lose!&quot;, JOptionPane.INFORMATION_MESSAGE);</b>
+<b class="nc"><i>388</i>&nbsp;        resetGUI();</b>
+<b class="nc"><i>389</i>&nbsp;    }</b>
+<i>390</i>&nbsp;
+<i>391</i>&nbsp;    /**
+<i>392</i>&nbsp;     * This method presents the &quot;You Win&quot; dialog and resets GUI elements in preparation for starting a new game.
+<i>393</i>&nbsp;     */
+<i>394</i>&nbsp;    private void winGame() {
+<b class="nc"><i>395</i>&nbsp;        JOptionPane.showMessageDialog(Mastermind.frame, &quot;&lt;html&gt;&lt;body&gt;&lt;center&gt;The Answer Was:&lt;br&gt;&quot;+answerPeg[0].colorStr+&quot;, &quot;+answerPeg[1].colorStr+&quot;, &quot;+answerPeg[2].colorStr+&quot;, &quot;+answerPeg[3].colorStr+&quot;&lt;br&gt;&lt;br&gt;Congratulations, You Won!&lt;/center&gt;&lt;/body&gt;&lt;/html&gt;&quot;, &quot;You Win!&quot;, JOptionPane.INFORMATION_MESSAGE);</b>
+<b class="nc"><i>396</i>&nbsp;        resetGUI();</b>
+<b class="nc"><i>397</i>&nbsp;    }</b>
+<i>398</i>&nbsp;
+<i>399</i>&nbsp;    /**
+<i>400</i>&nbsp;     * This method resets the state of GUI elements after a game has been completed.
+<i>401</i>&nbsp;     */
+<i>402</i>&nbsp;    private void resetGUI() {
+<b class="nc"><i>403</i>&nbsp;        start = false;</b>
+<b class="nc"><i>404</i>&nbsp;        blue.setEnabled(false);</b>
+<b class="nc"><i>405</i>&nbsp;        red.setEnabled(false);</b>
+<b class="nc"><i>406</i>&nbsp;        orange.setEnabled(false);</b>
+<b class="nc"><i>407</i>&nbsp;        green.setEnabled(false);</b>
+<b class="nc"><i>408</i>&nbsp;        yellow.setEnabled(false);</b>
+<b class="nc"><i>409</i>&nbsp;        white.setEnabled(false);</b>
+<b class="nc"><i>410</i>&nbsp;        guess.setEnabled(false);</b>
+<b class="nc"><i>411</i>&nbsp;        newGame.setText(&quot;New Game&quot;);</b>
+<b class="nc"><i>412</i>&nbsp;        newGameItem.setEnabled(true);</b>
+<b class="nc"><i>413</i>&nbsp;        endGameItem.setEnabled(false);</b>
+<b class="nc"><i>414</i>&nbsp;        repaint();</b>
+<b class="nc"><i>415</i>&nbsp;    }</b>
+<i>416</i>&nbsp;
+<i>417</i>&nbsp;    /**
+<i>418</i>&nbsp;     * This method presents a dialog allowing the user to select there desired difficulty level.
+<i>419</i>&nbsp;     * Based upon the selected difficulty level a new codeword is generated using the colors eligible for use.
+<i>420</i>&nbsp;     * This method is used when initiating a new game.
+<i>421</i>&nbsp;     */
+<i>422</i>&nbsp;    private void setDifficulty() {
+<i>423</i>&nbsp;        // Difficulty Setting Prompt
+<b class="nc"><i>424</i>&nbsp;        Object[] options = {&quot;Easy&quot;, &quot;Medium&quot;, &quot;Hard&quot;};</b>
+<b class="nc"><i>425</i>&nbsp;        int diffSetting = JOptionPane.showOptionDialog(Mastermind.frame, &quot;Select Your Difficulty Level&quot;, &quot;Difficulty Setting&quot;, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);</b>
+<i>426</i>&nbsp;
+<i>427</i>&nbsp;        //Adjust Based On Difficulty Setting
+<b class="nc"><i>428</i>&nbsp;        int diffLevel = 1;</b>
+<b class="nc"><i>429</i>&nbsp;        switch (diffSetting) {</b>
+<i>430</i>&nbsp;            case JOptionPane.YES_OPTION:
+<b class="nc"><i>431</i>&nbsp;                diffLevel = 1;</b>
+<b class="nc"><i>432</i>&nbsp;                orange.setEnabled(false);</b>
+<b class="nc"><i>433</i>&nbsp;                green.setEnabled(false);</b>
+<b class="nc"><i>434</i>&nbsp;                yellow.setEnabled(false);</b>
+<b class="nc"><i>435</i>&nbsp;                white.setEnabled(false);</b>
+<b class="nc"><i>436</i>&nbsp;                break;</b>
+<i>437</i>&nbsp;            case JOptionPane.NO_OPTION:
+<b class="nc"><i>438</i>&nbsp;                diffLevel = 2;</b>
+<b class="nc"><i>439</i>&nbsp;                yellow.setEnabled(false);</b>
+<b class="nc"><i>440</i>&nbsp;                white.setEnabled(false);</b>
+<b class="nc"><i>441</i>&nbsp;                break;</b>
+<i>442</i>&nbsp;            case JOptionPane.CANCEL_OPTION:
+<b class="nc"><i>443</i>&nbsp;                diffLevel = 3;</b>
+<b class="nc"><i>444</i>&nbsp;                break;</b>
+<i>445</i>&nbsp;            default:
+<b class="nc"><i>446</i>&nbsp;                diffLevel = 3;</b>
+<i>447</i>&nbsp;                break;
+<i>448</i>&nbsp;        } //End switch
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;        //Initialize Answer Pegs And Answer String
+<b class="nc"><i>451</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>452</i>&nbsp;            answerPeg[i] = new Peg(0, 0, generator.nextInt(2 * diffLevel));</b>
+<i>453</i>&nbsp;        } //End for
+<b class="nc"><i>454</i>&nbsp;    }</b>
+<i>455</i>&nbsp;
+<i>456</i>&nbsp;    /**
+<i>457</i>&nbsp;     * This method contains all the logic to validate and process a users guess.
+<i>458</i>&nbsp;     * After validating and evaluating the guess the appropriate response is presented to the user.
+<i>459</i>&nbsp;     */
+<i>460</i>&nbsp;    private void processGuess() {
+<b class="nc"><i>461</i>&nbsp;        Boolean validGuess = true;</b>
+<i>462</i>&nbsp;
+<i>463</i>&nbsp;        //Refactored Valid Guess Logic
+<b class="nc"><i>464</i>&nbsp;        for (int i=((guessRow-1)*4); i&lt;(guessRow*4); i++) {</b>
+<b class="nc"><i>465</i>&nbsp;            if (guessPeg[i].color == 6) {</b>
+<b class="nc"><i>466</i>&nbsp;                validGuess = false;</b>
+<i>467</i>&nbsp;            } //End if
+<i>468</i>&nbsp;        } //End fo
+<i>469</i>&nbsp;
+<i>470</i>&nbsp;        //Perform Evaluation
+<b class="nc"><i>471</i>&nbsp;        if (validGuess) {</b>
+<b class="nc"><i>472</i>&nbsp;            for (int i=0; i&lt;4; i++) {</b>
+<b class="nc"><i>473</i>&nbsp;                answerPeg[i].tagged = false;</b>
+<i>474</i>&nbsp;            } //End for
+<b class="nc"><i>475</i>&nbsp;            int redCount = 0;</b>
+<b class="nc"><i>476</i>&nbsp;            int whiteCount = 0;</b>
+<i>477</i>&nbsp;
+<i>478</i>&nbsp;            //Refactored Guess Evaluation Logic
+<b class="nc"><i>479</i>&nbsp;            for (int i=(guessRow*4)-4; i&lt;(guessRow*4); i++) {</b>
+<b class="nc"><i>480</i>&nbsp;                for (int j=0; j&lt;4; j++) {</b>
+<b class="nc"><i>481</i>&nbsp;                    if (guessPeg[i].color == answerPeg[i-(4*(guessRow-1))].color) {</b>
+<b class="nc"><i>482</i>&nbsp;                        redCount++;</b>
+<b class="nc"><i>483</i>&nbsp;                        if (answerPeg[i-(4*(guessRow-1))].tagged) {</b>
+<b class="nc"><i>484</i>&nbsp;                            whiteCount--;</b>
+<i>485</i>&nbsp;                        } //End if
+<b class="nc"><i>486</i>&nbsp;                        answerPeg[i-(4*(guessRow-1))].tagged = true;</b>
+<b class="nc"><i>487</i>&nbsp;                        break;</b>
+<i>488</i>&nbsp;                    } //End if
+<i>489</i>&nbsp;                    else {
+<b class="nc"><i>490</i>&nbsp;                        if (guessPeg[i].color == answerPeg[j].color &amp;&amp; i-(4*(guessRow-1))!=j &amp;&amp; !answerPeg[j].tagged) {</b>
+<b class="nc"><i>491</i>&nbsp;                            whiteCount++;</b>
+<b class="nc"><i>492</i>&nbsp;                            answerPeg[j].tagged = true;</b>
+<b class="nc"><i>493</i>&nbsp;                            break;</b>
+<i>494</i>&nbsp;                        } //End if
+<i>495</i>&nbsp;                    } //End else
+<i>496</i>&nbsp;                } //End for
+<i>497</i>&nbsp;            } //End for
+<i>498</i>&nbsp;
+<i>499</i>&nbsp;            //Refactored Set Evaluation Pegs Logic
+<b class="nc"><i>500</i>&nbsp;            int evalCount = 0;</b>
+<i>501</i>&nbsp;            int rnd;
+<b class="nc"><i>502</i>&nbsp;            for (int i = 0; i&lt; redCount; i++) {</b>
+<b class="nc"><i>503</i>&nbsp;                rnd = generator.nextInt(4);</b>
+<b class="nc"><i>504</i>&nbsp;                if (evalPeg[rnd +((guessRow-1)*4)].color == 6) {</b>
+<b class="nc"><i>505</i>&nbsp;                    evalPeg[rnd +((guessRow-1)*4)].color = 0;</b>
+<b class="nc"><i>506</i>&nbsp;                    evalCount++;</b>
+<i>507</i>&nbsp;                } //End if
+<i>508</i>&nbsp;                else {
+<b class="nc"><i>509</i>&nbsp;                    i--;</b>
+<i>510</i>&nbsp;                } //End else
+<i>511</i>&nbsp;            } //End for
+<i>512</i>&nbsp;
+<b class="nc"><i>513</i>&nbsp;            for (int i = 0; i&lt; whiteCount; i++) {</b>
+<b class="nc"><i>514</i>&nbsp;                if (evalCount == 4) {</b>
+<b class="nc"><i>515</i>&nbsp;                    break;</b>
+<i>516</i>&nbsp;                } //End if
+<i>517</i>&nbsp;                else {
+<b class="nc"><i>518</i>&nbsp;                    rnd = generator.nextInt(4);</b>
+<b class="nc"><i>519</i>&nbsp;                    if (evalPeg[rnd +((guessRow-1)*4)].color == 6) {</b>
+<b class="nc"><i>520</i>&nbsp;                        evalPeg[rnd +((guessRow-1)*4)].color = 1;</b>
+<b class="nc"><i>521</i>&nbsp;                        evalCount++;</b>
+<i>522</i>&nbsp;                    } //End if
+<i>523</i>&nbsp;                    else {
+<b class="nc"><i>524</i>&nbsp;                        i--;</b>
+<i>525</i>&nbsp;                    } //End else
+<i>526</i>&nbsp;                } //End else
+<i>527</i>&nbsp;            } //End for
+<i>528</i>&nbsp;
+<i>529</i>&nbsp;            //Increment Guess Row Count
+<b class="nc"><i>530</i>&nbsp;            guessRow++;</b>
+<i>531</i>&nbsp;
+<b class="nc"><i>532</i>&nbsp;            if (redCount == 4) {</b>
+<b class="nc"><i>533</i>&nbsp;                repaint();</b>
+<b class="nc"><i>534</i>&nbsp;                winGame();</b>
+<i>535</i>&nbsp;            } //End if
+<i>536</i>&nbsp;            else {
+<b class="nc"><i>537</i>&nbsp;                if (guessRow == 11) {</b>
+<b class="nc"><i>538</i>&nbsp;                    repaint();</b>
+<b class="nc"><i>539</i>&nbsp;                    endGame();</b>
+<i>540</i>&nbsp;                } //End if
+<i>541</i>&nbsp;            } //End else
+<i>542</i>&nbsp;
+<b class="nc"><i>543</i>&nbsp;            if (guessRow &lt; 11 &amp;&amp; redCount &lt; 4) {</b>
+<i>544</i>&nbsp;                //Update Guess Number Labels
+<b class="nc"><i>545</i>&nbsp;                updateGuessLabel(guessRow);</b>
+<i>546</i>&nbsp;
+<i>547</i>&nbsp;                //Refactored Set Guess Number Logic
+<b class="nc"><i>548</i>&nbsp;                guessNum.setText(guessRow + &quot;&quot;);</b>
+<i>549</i>&nbsp;            }
+<i>550</i>&nbsp;
+<b class="nc"><i>551</i>&nbsp;        } //End if</b>
+<i>552</i>&nbsp;        else {
+<b class="nc"><i>553</i>&nbsp;            JOptionPane.showOptionDialog(Mastermind.frame, &quot;Please Select A Color For All Guess Pegs!&quot;, &quot;Invalid Guess&quot;, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);</b>
+<i>554</i>&nbsp;        } //End else
+<b class="nc"><i>555</i>&nbsp;    }</b>
+<i>556</i>&nbsp;
+<i>557</i>&nbsp;    /**
+<i>558</i>&nbsp;     * This method changes the font color of the current guess label to blue as a visual aid to the user.
+<i>559</i>&nbsp;     * @param guessRow Int representing the number of the current guess.
+<i>560</i>&nbsp;     */
+<i>561</i>&nbsp;    private void updateGuessLabel(int guessRow) {
+<b class="nc"><i>562</i>&nbsp;        if (guessRow == 1) {</b>
+<b class="nc"><i>563</i>&nbsp;            for (JLabel aGuessLabelArray : guessLabelArray) {</b>
+<b class="nc"><i>564</i>&nbsp;                aGuessLabelArray.setForeground(Color.BLACK);</b>
+<i>565</i>&nbsp;            }
+<b class="nc"><i>566</i>&nbsp;            guessLabelArray[guessRow-1].setForeground(Color.BLUE);</b>
+<i>567</i>&nbsp;        } else {
+<b class="nc"><i>568</i>&nbsp;            guessLabelArray[guessRow-1].setForeground(Color.BLUE);</b>
+<b class="nc"><i>569</i>&nbsp;            guessLabelArray[guessRow-2].setForeground(Color.BLACK);</b>
+<i>570</i>&nbsp;        }
+<b class="nc"><i>571</i>&nbsp;    }</b>
+<i>572</i>&nbsp;
+<i>573</i>&nbsp;    /**
+<i>574</i>&nbsp;     * This method paints the game board and peg positions on the screen.
+<i>575</i>&nbsp;     * @param g Graphics context.
+<i>576</i>&nbsp;     */
+<i>577</i>&nbsp;    protected void paintComponent(Graphics g) {
+<b class="fc"><i>578</i>&nbsp;        super.paintComponent(g);</b>
+<b class="fc"><i>579</i>&nbsp;        Graphics2D g2d = (Graphics2D) g;</b>
+<i>580</i>&nbsp;
+<i>581</i>&nbsp;        //Draw Board
+<b class="fc"><i>582</i>&nbsp;        g2d.setPaint(Color.BLACK);</b>
+<b class="fc"><i>583</i>&nbsp;        g2d.setStroke(new BasicStroke(4));</b>
+<b class="fc"><i>584</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 20.0, 10.0, 420.0));</b>
+<b class="fc"><i>585</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 420.0, 380.0, 420.0));</b>
+<b class="fc"><i>586</i>&nbsp;        g2d.draw(new Line2D.Double(380.0, 420.0, 380.0, 20.0));</b>
+<b class="fc"><i>587</i>&nbsp;        g2d.draw(new Line2D.Double(380.0, 20.0, 10.0, 20.0));</b>
+<i>588</i>&nbsp;
+<i>589</i>&nbsp;        //Draw Rows
+<b class="fc"><i>590</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 60.0, 380.0, 60.0));</b>
+<b class="fc"><i>591</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 100.0, 380.0, 100.0));</b>
+<b class="fc"><i>592</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 140.0, 380.0, 140.0));</b>
+<b class="fc"><i>593</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 180.0, 380.0, 180.0));</b>
+<b class="fc"><i>594</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 220.0, 380.0, 220.0));</b>
+<b class="fc"><i>595</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 260.0, 380.0, 260.0));</b>
+<b class="fc"><i>596</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 300.0, 380.0, 300.0));</b>
+<b class="fc"><i>597</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 340.0, 380.0, 340.0));</b>
+<b class="fc"><i>598</i>&nbsp;        g2d.draw(new Line2D.Double(10.0, 380.0, 380.0, 380.0));</b>
+<i>599</i>&nbsp;
+<i>600</i>&nbsp;        //Draw Divider
+<b class="fc"><i>601</i>&nbsp;        g2d.draw(new Line2D.Double(195.0, 20.0, 195.0, 420.0));</b>
+<i>602</i>&nbsp;
+<i>603</i>&nbsp;        //Draw Guess Pegs
+<b class="fc"><i>604</i>&nbsp;        for (Peg aGuessPeg : guessPeg) {</b>
+<b class="fc"><i>605</i>&nbsp;            switch (aGuessPeg.color) {</b>
+<i>606</i>&nbsp;                case 0:
+<b class="nc"><i>607</i>&nbsp;                    g2d.setPaint(Color.BLUE);</b>
+<b class="nc"><i>608</i>&nbsp;                    break;</b>
+<i>609</i>&nbsp;                case 1:
+<b class="nc"><i>610</i>&nbsp;                    g2d.setPaint(Color.RED);</b>
+<b class="nc"><i>611</i>&nbsp;                    break;</b>
+<i>612</i>&nbsp;                case 2:
+<b class="nc"><i>613</i>&nbsp;                    g2d.setPaint(Color.ORANGE);</b>
+<b class="nc"><i>614</i>&nbsp;                    break;</b>
+<i>615</i>&nbsp;                case 3:
+<b class="nc"><i>616</i>&nbsp;                    g2d.setPaint(Color.GREEN);</b>
+<b class="nc"><i>617</i>&nbsp;                    break;</b>
+<i>618</i>&nbsp;                case 4:
+<b class="nc"><i>619</i>&nbsp;                    g2d.setPaint(Color.YELLOW);</b>
+<b class="nc"><i>620</i>&nbsp;                    break;</b>
+<i>621</i>&nbsp;                case 5:
+<b class="nc"><i>622</i>&nbsp;                    g2d.setPaint(Color.WHITE);</b>
+<b class="nc"><i>623</i>&nbsp;                    break;</b>
+<i>624</i>&nbsp;                default:
+<b class="fc"><i>625</i>&nbsp;                    g2d.setPaint(Color.BLACK);</b>
+<i>626</i>&nbsp;                    break;
+<i>627</i>&nbsp;            } //End switch
+<b class="fc"><i>628</i>&nbsp;            g2d.fillOval(aGuessPeg.x, aGuessPeg.y, 20, 20);</b>
+<i>629</i>&nbsp;        } //End for
+<i>630</i>&nbsp;
+<i>631</i>&nbsp;        //Draw Eval Pegs
+<b class="fc"><i>632</i>&nbsp;        for (Peg anEvalPeg : evalPeg) {</b>
+<b class="fc"><i>633</i>&nbsp;            switch (anEvalPeg.color) {</b>
+<i>634</i>&nbsp;                case 0:
+<b class="nc"><i>635</i>&nbsp;                    g2d.setPaint(Color.RED);</b>
+<b class="nc"><i>636</i>&nbsp;                    break;</b>
+<i>637</i>&nbsp;                case 1:
+<b class="nc"><i>638</i>&nbsp;                    g2d.setPaint(Color.WHITE);</b>
+<b class="nc"><i>639</i>&nbsp;                    break;</b>
+<i>640</i>&nbsp;                default:
+<b class="fc"><i>641</i>&nbsp;                    g2d.setPaint(Color.BLACK);</b>
+<i>642</i>&nbsp;                    break;
+<i>643</i>&nbsp;            } //End switch
+<b class="fc"><i>644</i>&nbsp;            g2d.fillOval(anEvalPeg.x, anEvalPeg.y, 20, 20);</b>
+<i>645</i>&nbsp;        } //End for
+<i>646</i>&nbsp;
+<b class="fc"><i>647</i>&nbsp;    } //End method</b>
+<i>648</i>&nbsp;
+<i>649</i>&nbsp;} //End class
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-12-31 20:12</div>
+</div>
+</body>
+</html>
