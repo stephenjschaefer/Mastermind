@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Peg</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.steve.mastermind</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Peg (com.steve.mastermind)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Peg</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;/**
+<i>2</i>&nbsp; * Project: Mastermind
+<i>3</i>&nbsp; * Created by Steve Schaefer on 12/22/2015.
+<i>4</i>&nbsp; */
+<i>5</i>&nbsp;package com.steve.mastermind;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Class representing a guess or response peg.
+<i>9</i>&nbsp; */
+<i>10</i>&nbsp;@SuppressWarnings(&quot;CanBeFinal&quot;)
+<i>11</i>&nbsp;class Peg {
+<i>12</i>&nbsp;    int x, y, color;
+<i>13</i>&nbsp;    Boolean tagged;
+<i>14</i>&nbsp;    String colorStr;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Constructor that creates a new instance of a peg.
+<i>18</i>&nbsp;     * @param x x coordinate of the peg instance.
+<i>19</i>&nbsp;     * @param y y coordinate of the peg instance.
+<i>20</i>&nbsp;     * @param color Int representing the color of the peg instance.
+<i>21</i>&nbsp;     */
+<b class="fc"><i>22</i>&nbsp;    public Peg(int x, int y, int color) {</b>
+<b class="fc"><i>23</i>&nbsp;        this.x = x;</b>
+<b class="fc"><i>24</i>&nbsp;        this.y = y;</b>
+<b class="fc"><i>25</i>&nbsp;        this.color = color;</b>
+<b class="fc"><i>26</i>&nbsp;        this.colorStr = this.getColorString(color);</b>
+<b class="fc"><i>27</i>&nbsp;        this.tagged = false;</b>
+<b class="fc"><i>28</i>&nbsp;    } //End constructor</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * This method returns the string value of a given pegs color.
+<i>32</i>&nbsp;     * @param color Int representing pegs color.
+<i>33</i>&nbsp;     * @return String value of a given pegs color.
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    private String getColorString(int color) {
+<b class="fc"><i>36</i>&nbsp;        String colorStr = &quot;&quot;;</b>
+<b class="fc"><i>37</i>&nbsp;        switch (color) {</b>
+<b class="fc"><i>38</i>&nbsp;            case 0: colorStr = &quot;Blue&quot;; break;</b>
+<b class="fc"><i>39</i>&nbsp;            case 1: colorStr = &quot;Red&quot;; break;</b>
+<b class="fc"><i>40</i>&nbsp;            case 2: colorStr = &quot;Orange&quot;; break;</b>
+<b class="fc"><i>41</i>&nbsp;            case 3: colorStr = &quot;Green&quot;; break;</b>
+<b class="fc"><i>42</i>&nbsp;            case 4: colorStr = &quot;Yellow&quot;; break;</b>
+<b class="fc"><i>43</i>&nbsp;            case 5: colorStr = &quot;White&quot;; break;</b>
+<i>44</i>&nbsp;        } //End switch
+<b class="fc"><i>45</i>&nbsp;        return colorStr;</b>
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;} //End class
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2015-12-31 20:12</div>
+</div>
+</body>
+</html>
